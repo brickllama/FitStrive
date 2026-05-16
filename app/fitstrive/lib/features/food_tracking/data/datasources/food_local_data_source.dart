@@ -7,8 +7,6 @@ abstract class FoodLocalDataSource {
 }
 
 class FoodLocalDataSourceImpl implements FoodLocalDataSource {
-  final te database;
-
   FoodLocalDataSourceImpl(this.database);
 
   @override
