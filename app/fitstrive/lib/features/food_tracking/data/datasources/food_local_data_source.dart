@@ -5,3 +5,20 @@ abstract class FoodLocalDataSource {
   Future<void> addFoodEntry(FoodEntryModel entry);
   Future<void> deleteFoodEntry(String id);
 }
+
+class FoodLocalDataSourceImpl implements FoodLocalDataSource {
+  final te database;
+
+  FoodLocalDataSourceImpl(this.database);
+
+  @override
+  Future<List<FoodEntryModel>?> getFoodEntries(DateTime date) async {
+    // SQLite/Hive/local storage code here
+    return null;
+  }
+
+  @override
+  Future<void> addFoodEntry(FoodEntryModel entry) async {
+    // SQLite/Hive/local storage code here
+  }
+}
