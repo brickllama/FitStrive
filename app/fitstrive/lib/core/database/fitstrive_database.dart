@@ -25,11 +25,32 @@ class AppDatabase {
     );
   }
 
-  Future<void> insertFoodEntry(Map<String, dynamic> entry) async {}
-
-  Future<List<Map<String, dynamic>>> getFoodEntries(DateTime date) async {
-    return [];
+  Future<List<Map<String, dynamic>>> query(
+    String table, {
+    String? where,
+    List<Object?>? whereArgs,
+  }) async {
+    try {
+      var result = await database!.query(
+        table,
+        where: where,
+        whereArgs: whereArgs,
+      );
+      return result;
+    } catch (E) {
+      return List.empty();
+    }
   }
 
-  Future<void> deleteFoodEntry(String id) async {}
+  Future<int> insert(String table, Map<String, Object?> values) async {
+    return database!.insert(
+      table,
+      values,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<int> delete(String table, {String? where, List<Object?>? whereArgs}) {
+    return database!.delete(table, where: where, whereArgs: whereArgs);
+  }
 }

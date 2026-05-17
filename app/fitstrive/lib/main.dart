@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'core/database/fitstrive_database.dart';
 
 void main() {
-  runApp(const MyApp());
+  AppDatabase db = AppDatabase();
+
+  final database = runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

@@ -14,19 +14,20 @@ class FoodLocalDataSourceImpl implements FoodLocalDataSource {
   FoodLocalDataSourceImpl(this.database);
 
   @override
-  Future<List<FoodEntryModel>?> getFoodEntries(DateTime date) async {
+  Future<List<FoodEntryModel>> getFoodEntries(DateTime date) async {
     // SQLite/Hive/local storage code here
-    return null;
+    var rows = await database.query("food");
+    return rows.map((row) => FoodEntryModel.fromJson(row)).toList();
   }
 
   @override
   Future<void> addFoodEntry(FoodEntryModel entry) async {
+    await database.insert("food", entry.toJson());
     // SQLite/Hive/local storage code here
   }
 
   @override
-  Future<void> deleteFoodEntry(String id) {
-    // TODO: implement deleteFoodEntry
-    throw UnimplementedError();
+  Future<void> deleteFoodEntry(String id) async {
+    await database.delete('food', where: 'id = ?', whereArgs: [id]);
   }
 }
