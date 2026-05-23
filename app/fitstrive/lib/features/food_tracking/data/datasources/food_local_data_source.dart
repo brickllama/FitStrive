@@ -15,7 +15,6 @@ class FoodLocalDataSourceImpl implements FoodLocalDataSource {
 
   @override
   Future<List<FoodEntryModel>> getFoodEntries(DateTime date) async {
-    // SQLite/Hive/local storage code here
     var rows = await database.query("food");
     return rows.map((row) => FoodEntryModel.fromJson(row)).toList();
   }
@@ -23,7 +22,6 @@ class FoodLocalDataSourceImpl implements FoodLocalDataSource {
   @override
   Future<void> addFoodEntry(FoodEntryModel entry) async {
     await database.insert("food", entry.toJson());
-    // SQLite/Hive/local storage code here
   }
 
   @override
