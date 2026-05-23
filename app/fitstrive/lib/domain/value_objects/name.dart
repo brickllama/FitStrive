@@ -6,6 +6,6 @@ final class Name {
   const Name._internal({required this.firstName, this.lastName});
 
   factory Name({required String firstName, String? lastName}) {
-    return Name._internal(firstName: firstName, lastName: lastName);
+    return ._internal(firstName: firstName, lastName: lastName);
   }
 }

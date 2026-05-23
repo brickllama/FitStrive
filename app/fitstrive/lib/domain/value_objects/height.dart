@@ -4,19 +4,19 @@ import '../exceptions/height_exception.dart';
 ///
 /// BASE UNIT IS CENTIMETERS (cm).
 final class Height {
-  final double amount;
+  final double value;
 
-  const Height._internal({required this.amount});
+  const Height._internal({required this.value});
 
-  factory Height({required double amount}) {
-    if (amount.isNaN) {
-      throw HeightException("Height is not a number.");
+  factory Height({required double value}) {
+    if (value.isNaN) {
+      throw HeightException('Height is not a number.');
     }
 
-    if (amount < 0) {
-      throw HeightException("Height cannot be negative");
+    if (value < 0) {
+      throw HeightException('Height cannot be negative');
     }
 
-    return Height._internal(amount: amount);
+    return ._internal(value: value);
   }
 }

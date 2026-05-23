@@ -4,19 +4,19 @@ import '../exceptions/weight_exception.dart';
 ///
 /// BASE UNIT IS KILOGRAMS (kg).
 final class Weight {
-  final double amount;
+  final double value;
 
-  const Weight._internal({required this.amount});
+  const Weight._internal({required this.value});
 
-  factory Weight({required double amount}) {
-    if (amount.isNaN) {
-      throw WeightException("Weight is not a number.");
+  factory Weight({required double value}) {
+    if (value.isNaN) {
+      throw WeightException('Weight is not a number.');
     }
 
-    if (amount < 0) {
-      throw WeightException("Weight cannot be negative.");
+    if (value < 0) {
+      throw WeightException('Weight cannot be negative.');
     }
 
-    return Weight._internal(amount: amount);
+    return ._internal(value: value);
   }
 }
