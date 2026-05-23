@@ -10,8 +10,8 @@ void main() {
     });
 
     test('legal format should construct', () {
-      final Email email = Email(value: 'good.email@gmail.com');
-      expect(email, isA<Email>());
+      Email act() => Email(value: 'good.email@gmail.com');
+      expect(act(), isA<Email>());
     });
   });
 }

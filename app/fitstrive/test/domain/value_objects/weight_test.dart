@@ -15,8 +15,8 @@ void main() {
     });
 
     test('legal value should construct', () {
-      final Weight weight = Weight(value: 45);
-      expect(weight, isA<Weight>());
+      Weight act() => Weight(value: 45);
+      expect(act(), isA<Weight>());
     });
   });
 }

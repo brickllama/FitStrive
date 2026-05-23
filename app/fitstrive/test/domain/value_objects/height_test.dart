@@ -15,8 +15,8 @@ void main() {
     });
 
     test('legal value should construct', () {
-      final Height height = Height(value: 45);
-      expect(height, isA<Height>());
+      Height act() => Height(value: 45);
+      expect(act(), isA<Height>());
     });
   });
 }
