@@ -1,7 +1,12 @@
+import 'package:fitstrive/features/food_tracking/data/datasources/food_local_data_source.dart';
 import 'package:flutter/material.dart';
+import 'core/database/fitstrive_database.dart';
 
 void main() {
-  runApp(const MyApp());
+  AppDatabase db = AppDatabase();
+  FoodLocalDataSourceImpl foodLocalDataSourceImpl = FoodLocalDataSourceImpl(db);
+
+  final database = runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -30,7 +35,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'FitStrive'),
     );
   }
 }
