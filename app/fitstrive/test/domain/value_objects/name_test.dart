@@ -7,6 +7,7 @@ void main() {
       final Name withoutLastName = Name(firstName: "John", lastName: null);
       expect(withoutLastName, isA<Name>());
     });
+
     test('name should construct with a last name.', () {
       final Name withLastName = Name(firstName: "Jane", lastName: "Doe");
       expect(withLastName, isA<Name>());
