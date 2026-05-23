@@ -6,9 +6,9 @@ import '../exceptions/height_exception.dart';
 final class Height {
   final double value;
 
-  const Height._internal({required this.value});
+  Height._internal(this.value);
 
-  factory Height({required double value}) {
+  factory Height({required final double value}) {
     if (value.isNaN) {
       throw HeightException('Height is not a number.');
     }
@@ -17,6 +17,6 @@ final class Height {
       throw HeightException('Height cannot be negative');
     }
 
-    return ._internal(value: value);
+    return Height._internal(value);
   }
 }

@@ -1,3 +1,4 @@
+/// Basic email exception.
 final class EmailException implements Exception {
   final String message;
 

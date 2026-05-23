@@ -17,7 +17,7 @@ void main() {
       );
       expect(userProfile, isA<UserProfile>());
 
-      final User user = User(profile: userProfile);
+      final User user = User.create(profile: userProfile);
       expect(user, isA<User>());
     });
   });

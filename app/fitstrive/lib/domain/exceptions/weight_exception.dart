@@ -1,3 +1,4 @@
+/// Basic weight exception.
 final class WeightException implements Exception {
   final String message;
 

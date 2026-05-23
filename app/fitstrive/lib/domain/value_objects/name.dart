@@ -3,9 +3,9 @@ final class Name {
   final String firstName;
   final String? lastName;
 
-  const Name._internal({required this.firstName, this.lastName});
+  Name._internal(this.firstName, this.lastName);
 
-  factory Name({required String firstName, String? lastName}) {
-    return ._internal(firstName: firstName, lastName: lastName);
+  factory Name({required final String firstName, final String? lastName}) {
+    return Name._internal(firstName, lastName);
   }
 }

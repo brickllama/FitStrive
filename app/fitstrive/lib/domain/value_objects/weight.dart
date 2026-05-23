@@ -6,9 +6,9 @@ import '../exceptions/weight_exception.dart';
 final class Weight {
   final double value;
 
-  const Weight._internal({required this.value});
+  Weight._internal(this.value);
 
-  factory Weight({required double value}) {
+  factory Weight({required final double value}) {
     if (value.isNaN) {
       throw WeightException('Weight is not a number.');
     }
@@ -17,6 +17,6 @@ final class Weight {
       throw WeightException('Weight cannot be negative.');
     }
 
-    return ._internal(value: value);
+    return Weight._internal(value);
   }
 }

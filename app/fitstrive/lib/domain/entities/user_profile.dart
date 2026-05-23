@@ -14,6 +14,6 @@ final class UserProfile {
     required this.name,
     required this.height,
     required this.weight,
-    this.measurementSystem = MeasurementSystem.metric,
+    this.measurementSystem = MeasurementSystem.metric, // Defaults to metric
   });
 }

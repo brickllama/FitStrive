@@ -1,3 +1,4 @@
+/// Basic height exception.
 final class HeightException implements Exception {
   final String message;
 
