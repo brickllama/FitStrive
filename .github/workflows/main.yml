@@ -4,6 +4,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: .
+
 jobs:
   Update-Server:
     runs-on: self-hosted
