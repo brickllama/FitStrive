@@ -12,12 +12,14 @@ jobs:
       - name: Checkout server directory
         uses: actions/checkout@v6
 
-      - name: Stop existing containers
-        run: docker compose down || true
-      
-      - name: Build and start services
-        working-directory: server
-        run: docker compose up -d --build
+      - name: Build docker image
+        run: |
+          docker build -t fitstrive/server:latest ./server
 
-      - name: Show running containers
+      - name: Reboot docker containers
+        run: |
+          docker compose down || true
+          docker compose up -d
+
+      - name: Verify containers
         run: docker ps
