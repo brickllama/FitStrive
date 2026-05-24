@@ -10,17 +10,15 @@ jobs:
 
     defaults:
       run:
-        working-directory: server
-        
+        working-directory: /home/fitstrive/server
+  
     steps:
       - name: Checkout server directory
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
           sparse-checkout: |
-            FitStrive/server
-          sparse-checkout-cone-mode: true
-          path: server
+            server
           
       - name: Deploy
         run: |
