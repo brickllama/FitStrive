@@ -22,6 +22,5 @@ jobs:
           pwd
           ls -la
           echo "Prepping server for deployment!"
-          npm ci
           npm run build
-          pm2 restart fitstrive-server
+          npm run start
