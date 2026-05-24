@@ -13,11 +13,11 @@ jobs:
         uses: actions/checkout@v6
         with:
           sparse-checkout: |
-            server
+            server/**
           sparse-checkout-cone-mode: true
-          path: server
           
       - name: Deploy
+        working-directory: server
         run: |
           pwd
           ls -la
