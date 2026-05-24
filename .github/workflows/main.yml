@@ -7,10 +7,6 @@ on:
 jobs:
   Update-Server:
     runs-on: self-hosted
-
-    defaults:
-      run:
-        working-directory: /home/fitstrive/server
   
     steps:
       - name: Checkout server directory
