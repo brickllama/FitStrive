@@ -12,8 +12,10 @@ jobs:
       - name: Checkout server directory
         uses: actions/checkout@v6
         with:
+          path: server
           sparse-checkout: |
             server
+          sparse-checkout-cone-mode: true
           
       - name: Deploy
         run: |
