@@ -15,8 +15,10 @@ jobs:
           sparse-checkout: |
             server
           sparse-checkout-cone-mode: true
+          path: server
           
       - name: Deploy
+        working-directory: server
         run: |
           echo "Prepping server for deployment!"
           npm ci
