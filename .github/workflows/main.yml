@@ -18,7 +18,6 @@ jobs:
           path: server
           
       - name: Deploy
-        working-directory: server
         run: |
           pwd
           ls -la
