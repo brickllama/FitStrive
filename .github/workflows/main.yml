@@ -16,6 +16,7 @@ jobs:
         run: docker compose down || true
       
       - name: Build and start services
+        working-directory: .
         run: docker compose up -d --build
 
       - name: Show running containers
