@@ -1,11 +1,11 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response } from 'express';
 const app = express();
 const port = 3000;
 
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
-    res.send("index");
+    res.send('index');
 });
 
 app.listen(port, () => {
