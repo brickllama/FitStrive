@@ -1,23 +1,26 @@
-import './user_profile.dart';
+import './user_health.dart';
+import '../value_objects/user_id.dart';
 import '../value_objects/email.dart';
 import '../value_objects/name.dart';
-import '../value_objects/id.dart';
 
-/// Represents a user.
 final class User {
-  final Id id;
-  final Email email;
-  final Name name;
-  final UserProfile profile;
-
-  User._internal(this.id, this.email, this.name, this.profile);
+  // PUBLIC
 
   factory User({
-    required final Id id,
+    required final UserID id,
     required final Email email,
     required final Name name,
-    required final UserProfile profile,
+    required final UserHealth health,
   }) {
-    return User._internal(id, email, name, profile);
+    return User._internal(id, email, name, health);
   }
+
+  final UserID id;
+  final Email email;
+  final Name name;
+  final UserHealth health;
+
+  // PRIVATE
+
+  User._internal(this.id, this.email, this.name, this.health);
 }
