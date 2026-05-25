@@ -1,17 +1,22 @@
 import 'package:test/test.dart';
+import 'package:fitstrive/domain/exceptions/format_exception.dart';
 import 'package:fitstrive/domain/value_objects/email.dart';
-import 'package:fitstrive/domain/exceptions/email_exception.dart';
 
 void main() {
-  group('Test illegal format, legal format', () {
-    test('illegal format should throw EmailException', () {
-      void act() => Email(value: '@gmail.com');
-      expect(act, throwsA(isA<EmailException>()));
-    });
+  test('Email() throws FormatException if the format is invalid', () {
+    final String invalidFormat = 'john.smith@gmail';
 
-    test('legal format should construct', () {
-      Email act() => Email(value: 'good.email@gmail.com');
-      expect(act(), isA<Email>());
-    });
+    void result() => Email(value: invalidFormat);
+
+    expect(result, throwsA(isA<FormatException>()));
+  });
+
+  test('Email() constructs if the format is valid', () {
+    final String normal = 'jane.doe@outlook.com';
+
+    final Email result = Email(value: normal);
+
+    expect(result, isA<Email>());
+    expect(result.value, normal);
   });
 }
