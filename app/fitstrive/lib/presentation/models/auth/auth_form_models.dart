@@ -3,10 +3,6 @@
 // and get passed to the use case when submitting.
 // Separates what the user typed from what the domain needs.
 
-/// Presentation-layer models live here.
-/// These are NOT domain entities — they represent form state
-/// and UI-specific data shapes consumed by ViewModels and Views.
-
 // store the current values typed into the login form.
 class LoginFormModel {
   // user email input

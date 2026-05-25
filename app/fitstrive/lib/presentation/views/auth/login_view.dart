@@ -29,6 +29,11 @@ class _LoginContent extends StatelessWidget {
     final vm = context.watch<LoginViewModel>();
 
     return Scaffold(
+      appBar: AppBar(
+        leading: const BackButton(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -126,7 +131,7 @@ class _LoginContent extends StatelessWidget {
   Future<void> _submit(BuildContext context, LoginViewModel vm) async {
     final success = await vm.login();
     if (success && context.mounted) {
-      // TODO: context.go('/dashboard');
+      // TODO: send user to dashboard
     }
   }
 }

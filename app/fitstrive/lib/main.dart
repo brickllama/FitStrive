@@ -22,8 +22,9 @@ class FitStriveApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00C853)),
         fontFamily: 'Roboto',
       ),
-      home: const LoginView(),
+      home: const LaunchView(),
       routes: {
+        '/launch': (_) => const LaunchView(),
         '/login': (_) => const LoginView(),
         '/register': (_) => const RegisterView(),
         '/forgot-password': (_) => const ForgotPasswordView(),

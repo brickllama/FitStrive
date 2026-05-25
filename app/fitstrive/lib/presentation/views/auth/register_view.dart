@@ -142,14 +142,13 @@ class _RegisterContent extends StatelessWidget {
     );
   }
 
-  // hand;es regsistration form submission
+  // handles regsistration form submission
   // calls the ViewModel and navigates on success
   Future<void> _submit(BuildContext context, RegisterViewModel vm) async {
     final success = await vm.register();
     // only navigate if registration succeeded and widget is still mounted
     if (success && context.mounted) {
-      // TODO: navigate to onboarding / dashboard
-      // context.go('/dashboard');
+      // TODO: send user to dashboard
     }
   }
 }
