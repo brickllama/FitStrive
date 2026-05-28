@@ -1,8 +1,8 @@
-import 'package:fitstrive/features/food_tracking/data/model/calorie_entry_model.dart';
+import 'package:fitstrive/data/model/calorie_entry_model.dart';
 import 'package:fitstrive/features/food_tracking/domain/entities/calorie_entry.dart';
 
-import 'package:fitstrive/features/food_tracking/data/datasources/calorie_local_data_source.dart';
-import 'package:fitstrive/features/food_tracking/data/repositories/calorie_repository.dart';
+import 'package:fitstrive/data/datasources/calorie_local_data_source.dart';
+import 'package:fitstrive/data/repositories/calorie_repository.dart';
 import 'package:fitstrive/features/food_tracking/domain/entities/calorie_entry.dart';
 
 abstract class CalorieRepository {

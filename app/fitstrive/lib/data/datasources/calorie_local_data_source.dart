@@ -1,5 +1,5 @@
 import 'package:fitstrive/core/database/fitstrive_database.dart';
-import 'package:fitstrive/features/food_tracking/data/model/calorie_entry_model.dart';
+import 'package:fitstrive/data/model/calorie_entry_model.dart';
 
 abstract class CalorieLocalDataSource {
   Future<List<CalorieEntryModel>> getCalorieEntries();
