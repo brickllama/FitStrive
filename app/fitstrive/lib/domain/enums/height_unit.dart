@@ -1,16 +1,14 @@
 /// BASE: centimeters.
 enum HeightUnit {
   centimeters('cm', 1.0),
-  meters('m', 100.0),
-  inches('in', 2.54),
-  feet('ft', 30.48);
+  meters('m', 100.0);
 
   // PUBLIC
 
+  const HeightUnit(this.symbol, this.centimetersPerUnit);
+
   final String symbol;
   final double centimetersPerUnit;
-
-  const HeightUnit(this.symbol, this.centimetersPerUnit);
 
   double fromCentimeters(double value) {
     return value / centimetersPerUnit;

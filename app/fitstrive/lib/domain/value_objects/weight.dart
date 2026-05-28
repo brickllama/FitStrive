@@ -32,12 +32,6 @@ final class Weight implements Comparable<Weight> {
 
   double get kilograms => _value;
 
-  double get ounces => _toUnit(WeightUnit.ounces);
-
-  double get pounds => _toUnit(WeightUnit.pounds);
-
-  double get stones => _toUnit(WeightUnit.stones);
-
   @override
   int compareTo(Weight other) => _value.compareTo(other._value);
 
