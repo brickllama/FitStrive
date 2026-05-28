@@ -1,4 +1,4 @@
-import 'package:fitstrive/features/food_tracking/data/datasources/food_local_data_source.dart';
+import 'package:fitstrive/data/datasources/food_local_data_source.dart';
 import 'package:flutter/material.dart';
 import 'core/database/fitstrive_database.dart';
 import 'presentation/presentation.dart';
