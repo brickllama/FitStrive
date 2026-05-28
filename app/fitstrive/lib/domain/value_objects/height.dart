@@ -26,10 +26,6 @@ final class Height implements Comparable<Height> {
 
   double get meters => _toUnit(HeightUnit.meters);
 
-  double get inches => _toUnit(HeightUnit.inches);
-
-  double get feet => _toUnit(HeightUnit.feet);
-
   @override
   int compareTo(Height other) => _value.compareTo(other._value);
 
