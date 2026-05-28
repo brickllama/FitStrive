@@ -2,6 +2,8 @@ import 'package:fitstrive/features/food_tracking/data/datasources/food_local_dat
 import 'package:flutter/material.dart';
 import 'core/database/fitstrive_database.dart';
 import 'presentation/presentation.dart';
+import 'presentation/views/dashboard/dashboard_view.dart';
+import 'presentation/views/food_entry_view.dart';
 
 void main() {
   AppDatabase db = AppDatabase();
@@ -28,6 +30,8 @@ class FitStriveApp extends StatelessWidget {
         '/login': (_) => const LoginView(),
         '/register': (_) => const RegisterView(),
         '/forgot-password': (_) => const ForgotPasswordView(),
+        '/dashboard': (_) => const DashboardView(),
+        '/log-food': (_) => const FoodEntryView(),
       },
     );
   }
