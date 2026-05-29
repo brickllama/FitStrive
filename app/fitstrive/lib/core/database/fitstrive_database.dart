@@ -27,7 +27,7 @@ CREATE TABLE user (
 )
 ''');
         await db.execute('''
-CREATE TABLE food_entries (
+CREATE TABLE food_log (
   id TEXT PRIMARY KEY AUTOINCREMENT,
   foodname TEXT NOT NULL,
   calories REAL NOT NULL,
@@ -37,6 +37,18 @@ CREATE TABLE food_entries (
   protein REAL NOT NULL,
   fats REAL NOT NULL,
   date TEXT NOT NULL
+)
+''');
+        await db.execute('''
+CREATE TABLE food_item (
+  id TEXT PRIMARY KEY AUTOINCREMENT,
+  foodname TEXT NOT NULL,
+  calories REAL NOT NULL,
+  weight REAL NOT NULL,
+  unitSymbol TEXT NOT NULL,
+  carbohydrates REAL NOT NULL,
+  protein REAL NOT NULL,
+  fats REAL NOT NULL,
 )
 ''');
         await db.execute('''

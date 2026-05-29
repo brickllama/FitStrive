@@ -1,17 +1,17 @@
 import 'package:fitstrive/core/database/fitstrive_database.dart';
-import 'package:fitstrive/data/model/food_model.dart';
+import 'package:fitstrive/data/model/food_log_model.dart';
 
-abstract class FoodLocalSource {
-  Future<bool> AddFoodEntry(FoodModel entry);
-  Future<List<FoodModel>> getFoodEntries(DateTime from, DateTime to);
+abstract class FoodLogLocalSource {
+  Future<bool> AddFoodEntry(FoodLogModel entry);
+  Future<List<FoodLogModel>> getFoodEntries(DateTime from, DateTime to);
   Future<bool> removeFoodEntry(String id);
 }
 
-class FoodLocalSourceImpl extends FoodLocalSource {
+class FoodLogLocalSourceImpl extends FoodLogLocalSource {
   final AppDatabase database;
-  FoodLocalSourceImpl(this.database);
+  FoodLogLocalSourceImpl(this.database);
   @override
-  Future<bool> AddFoodEntry(FoodModel entry) async {
+  Future<bool> AddFoodEntry(FoodLogModel entry) async {
     if (await database.insert("food", entry.toJson()) != 0) {
       return true;
     }
@@ -19,13 +19,13 @@ class FoodLocalSourceImpl extends FoodLocalSource {
   }
 
   @override
-  Future<List<FoodModel>> getFoodEntries(DateTime from, DateTime to) async {
+  Future<List<FoodLogModel>> getFoodEntries(DateTime from, DateTime to) async {
     var res = await database.query(
       "food",
       where: 'date => ? and date <= ?',
       whereArgs: [from.toIso8601String(), to.toIso8601String()],
     );
-    return res.map((row) => FoodModel.fromJson(row)).toList();
+    return res.map((row) => FoodLogModel.fromJson(row)).toList();
   }
 
   @override
