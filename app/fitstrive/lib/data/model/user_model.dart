@@ -20,8 +20,8 @@ class UserModel {
     return UserModel(
       id: json['id'],
       email: json['email'],
-      firstName: json['firstname'],
-      lastName: json['lastname'],
+      firstName: json['firstName'],
+      lastName: json['lastName'] as String?,
     );
   }
 
@@ -29,8 +29,8 @@ class UserModel {
     return {
       'id': id,
       'email': email,
-      'firstname': firstName,
-      'lastname': lastName,
+      'firstName': firstName,
+      'lastName': lastName,
     };
   }
 

@@ -18,7 +18,7 @@ export class UserRepository {
         const result = await pool.query(
             `INSERT INTO users (uuid, email, first_name, last_name, password_hash)
             VALUES ($1, $2, $3, $4, $5)
-            RETURNING uuid, email, first_name, lastName`,
+            RETURNING uuid, email, first_name, last_name`,
             [uuid, email, firstName, lastName, passwordHash]
         );
         return result.rows[0];

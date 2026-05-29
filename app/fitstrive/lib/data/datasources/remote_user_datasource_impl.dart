@@ -20,6 +20,7 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
     final Password password,
   ) async {
     try {
+      print('API URL: $_url/users');
       final response = await http.post(
         Uri.parse('$_url/users'),
         headers: <String, String>{
@@ -37,11 +38,15 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
         final UserModel userModel = UserModel.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>,
         );
+        print('it worked!');
         return Result.ok(userModel.toEntity());
-      } else {
-        throw Result.error(HttpException('Invalid Response'));
       }
+      final code = response.statusCode;
+      final msg = response.body;
+      print('it did not work, wrong http response, $code \\ $msg');
+      return Result.error(HttpException('Invalid Response'));
     } on Exception catch (exception) {
+      print('CAUGHT');
       return Result.error(exception);
     }
   }
