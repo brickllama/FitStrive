@@ -6,9 +6,9 @@ const router = Router();
 
 router.get('/', Controller.getUsers);
 
-router.get('/uuid/:uuid', Middleware.validateUuid, Controller.getUserByUuid);
+// router.get('/uuid/:uuid', Middleware.validateUuid, Controller.getUserByUuid);
 
-router.get('/email/:email', Middleware.validateEmail, Controller.getUserByEmail);
+// router.get('/email/:email', Middleware.validateEmail, Controller.getUserByEmail);
 
 router.post('/', Middleware.validateEmail, Middleware.validatePassword, Controller.createUser);
 
