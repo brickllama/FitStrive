@@ -20,8 +20,8 @@ export class UserController {
      */
     static async createUser(req: Request, res: Response) {
         try {
-            const { email, name, password } = req.body;
-            const user = await Service.createUser(email, name, password);
+            const { email, firstName, lastName, password } = req.body;
+            const user = await Service.createUser(email, firstName, lastName, password);
             return res.status(201).json(user);
         } catch (error) {
             console.error('Error creating user: ', error);
