@@ -16,13 +16,13 @@ export class UserController {
         }
     }
 
-    static async getUsers(res: Response) {
+    static async getUsers(req: Request, res: Response) {
         try {
             const result = await Service.getUsers();
             if (result === null) {
                 return res.status(204).json({ error: 'No users found' });
             }
-            return res.json(result);
+            return res.status(200).json(result);
         } catch (error) {
             console.error('Error fetching users: ', error);
             return res.status(500).json({ error: 'Internal server error' });
