@@ -2,8 +2,8 @@ import 'package:fitstrive/domain/value_objects/food_name.dart';
 import 'package:fitstrive/domain/value_objects/macronutrients.dart';
 import 'package:fitstrive/domain/value_objects/weight.dart';
 
-final class Food {
-  factory Food({
+final class FoodLog {
+  factory FoodLog({
     required final String id,
     required final FoodName foodname,
     required final Macronutrients macronutrients,
@@ -11,10 +11,17 @@ final class Food {
     required final double calories,
     required final DateTime date,
   }) {
-    return Food._internal(id, foodname, macronutrients, weight, calories, date);
+    return FoodLog._internal(
+      id,
+      foodname,
+      macronutrients,
+      weight,
+      calories,
+      date,
+    );
   }
 
-  Food._internal(
+  FoodLog._internal(
     this.id,
     this.foodname,
     this.macronutrients,

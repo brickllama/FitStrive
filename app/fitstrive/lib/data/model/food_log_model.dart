@@ -1,10 +1,10 @@
-import 'package:fitstrive/domain/entities/food.dart';
+import 'package:fitstrive/domain/entities/food_log.dart';
 import 'package:fitstrive/domain/enums/weight_unit.dart';
 import 'package:fitstrive/domain/value_objects/food_name.dart';
 import 'package:fitstrive/domain/value_objects/macronutrients.dart';
 import 'package:fitstrive/domain/value_objects/weight.dart';
 
-class FoodModel {
+class FoodLogModel {
   final String id;
   final String foodname;
   final double calories;
@@ -15,7 +15,7 @@ class FoodModel {
   final double fats;
   final String date;
 
-  FoodModel({
+  FoodLogModel({
     required this.id,
     required this.foodname,
     required this.calories,
@@ -27,8 +27,8 @@ class FoodModel {
     required this.date,
   });
 
-  factory FoodModel.fromJson(Map<String, dynamic> json) {
-    return FoodModel(
+  factory FoodLogModel.fromJson(Map<String, dynamic> json) {
+    return FoodLogModel(
       id: json['id'],
       foodname: json['foodname'],
       calories: json['calories'],
@@ -55,7 +55,7 @@ class FoodModel {
     };
   }
 
-  Food toEntity() {
+  FoodLog toEntity() {
     FoodName foodName = FoodName(foodName: foodname);
     Macronutrients macronutrients = Macronutrients(
       carbohydrates: carbohydrates,
@@ -63,7 +63,7 @@ class FoodModel {
       fats: fats,
     );
     Weight weight = Weight(value: this.weight, unit: WeightUnit.kilograms);
-    return Food(
+    return FoodLog(
       id: id,
       foodname: foodName,
       macronutrients: macronutrients,
@@ -73,8 +73,8 @@ class FoodModel {
     );
   }
 
-  factory FoodModel.fromEntity(Food entity) {
-    return FoodModel(
+  factory FoodLogModel.fromEntity(FoodLog entity) {
+    return FoodLogModel(
       id: entity.id,
       foodname: entity.foodname.foodname,
       calories: entity.calories,
