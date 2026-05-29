@@ -1,5 +1,4 @@
 import 'package:fitstrive/core/database/fitstrive_database.dart';
-import 'package:fitstrive/data/datasources/user_local_source.dart';
 import 'package:fitstrive/data/model/user_health_model.dart';
 
 abstract class UserHealthLocalSource {

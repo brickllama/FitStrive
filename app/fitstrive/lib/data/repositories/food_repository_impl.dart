@@ -2,7 +2,6 @@ import 'package:fitstrive/data/datasources/food_local_source.dart';
 import 'package:fitstrive/data/model/food_model.dart';
 import 'package:fitstrive/domain/entities/food.dart';
 import 'package:fitstrive/domain/repository/food_repository.dart';
-import 'package:fitstrive/domain/value_objects/food_name.dart';
 
 class FoodRepositoryImpl extends FoodRepository {
   final FoodLocalSource localSource;
