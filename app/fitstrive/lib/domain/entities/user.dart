@@ -1,4 +1,3 @@
-import './user_health.dart';
 import '../value_objects/user_id.dart';
 import '../value_objects/email.dart';
 import '../value_objects/name.dart';
