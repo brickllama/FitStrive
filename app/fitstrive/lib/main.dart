@@ -6,6 +6,7 @@ import 'presentation/presentation.dart';
 void main() async {
   await dotenv.load(fileName: 'config/.env');
   AppDatabase db = AppDatabase();
+
   runApp(const FitStriveApp());
 }
 

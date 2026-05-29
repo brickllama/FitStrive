@@ -1,5 +1,5 @@
 import 'package:fitstrive/core/database/fitstrive_database.dart';
-import 'package:fitstrive/data/model/food__item_model.dart';
+import 'package:fitstrive/data/model/food_item_model.dart';
 
 abstract class FoodItemLocalSource {
   Future<bool> addFoodEntry(FoodItemModel entry);

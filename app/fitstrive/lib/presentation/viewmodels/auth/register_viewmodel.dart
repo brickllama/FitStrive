@@ -1,3 +1,5 @@
+import 'package:fitstrive/application/usecases/register_usecase.dart';
+import 'package:fitstrive/domain/abstractions/result.dart';
 import 'package:flutter/material.dart';
 import '../base_viewmodel.dart';
 import '../../models/auth/auth_form_models.dart';
@@ -7,11 +9,15 @@ import '../../models/auth/auth_validators.dart';
 // TODO: import from application layer once available
 
 class RegisterViewModel extends BaseViewModel {
+  RegisterUseCase registerUseCase;
+
+  RegisterViewModel({required this.registerUseCase});
   // form controllers
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // UI state
@@ -41,16 +47,20 @@ class RegisterViewModel extends BaseViewModel {
   }
 
   // updates the values for username, email, pass, confirm pass inside the immutable form model
-  void onUsernameChanged(String value) => _form = _form.copyWith(username: value);
+  void onUsernameChanged(String value) =>
+      _form = _form.copyWith(username: value);
   void onEmailChanged(String value) => _form = _form.copyWith(email: value);
-  void onPasswordChanged(String value) => _form = _form.copyWith(password: value);
-  void onConfirmPasswordChanged(String value) => _form = _form.copyWith(confirmPassword: value);
+  void onPasswordChanged(String value) =>
+      _form = _form.copyWith(password: value);
+  void onConfirmPasswordChanged(String value) =>
+      _form = _form.copyWith(confirmPassword: value);
 
   // email, user, pass validation straight from shared validators
   // register uses strongPassword, not basic password
   String? validateUsername(String? value) => AuthValidators.username(value);
   String? validateEmail(String? value) => AuthValidators.email(value);
-  String? validatePassword(String? value) => AuthValidators.strongPassword(value);
+  String? validatePassword(String? value) =>
+      AuthValidators.strongPassword(value);
   String? validateConfirmPassword(String? value) =>
       AuthValidators.confirmPassword(passwordController.text)(value);
 
@@ -61,6 +71,12 @@ class RegisterViewModel extends BaseViewModel {
     if (!formKey.currentState!.validate()) return false;
 
     return runAsync(() async {
+      final result = await registerUseCase.execute(
+        email: _form.email,
+        password: _form.password,
+      );
+      if (result is Ok) {
+      } else {}
       // TODO: use application layer use case
       //
       // will probably use something like:
@@ -77,7 +93,7 @@ class RegisterViewModel extends BaseViewModel {
       // );
 
       // placeholder delay until application layer is connected
-      await Future.delayed(const Duration(seconds: 1));
+      //await Future.delayed(const Duration(seconds: 1));
     });
   }
 
