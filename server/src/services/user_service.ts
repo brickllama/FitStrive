@@ -10,14 +10,15 @@ export class UserService {
     /**
      * Create a new user.
      * @param email - The user's email address.
-     * @param name - The user's first, and, optionally, last name.
+     * @param firstName - First name.
+     * @param lastName - Last name.
      * @param password - The user's Password.
      * @returns The created `UserDTO`.
      */
-    static async createUser(email: string, name: string, password: string) {
+    static async createUser(email: string, firstName: string, lastName: string, password: string) {
         const uuid = randomUUID();
         const passwordHash = await hash(password, 12);
-        return Repository.createUser(uuid, email, name, passwordHash);
+        return Repository.createUser(uuid, email, firstName, lastName, passwordHash);
     }
 
     /**
