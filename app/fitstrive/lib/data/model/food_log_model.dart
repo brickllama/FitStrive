@@ -64,7 +64,6 @@ class FoodLogModel {
     );
     Weight weight = Weight(value: this.weight, unit: WeightUnit.kilograms);
     return FoodLog(
-      id: id,
       foodname: foodName,
       macronutrients: macronutrients,
       calories: calories,

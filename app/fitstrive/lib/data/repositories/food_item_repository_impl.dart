@@ -1,5 +1,5 @@
 import 'package:fitstrive/data/datasources/food_item_local_source.dart';
-import 'package:fitstrive/data/model/food__item_model.dart';
+import 'package:fitstrive/data/model/food_item_model.dart';
 import 'package:fitstrive/domain/entities/food_item.dart';
 import 'package:fitstrive/domain/entities/food_log.dart';
 import 'package:fitstrive/domain/repository/food_item_repository.dart';

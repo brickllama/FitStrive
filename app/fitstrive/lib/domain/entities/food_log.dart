@@ -1,18 +1,19 @@
 import 'package:fitstrive/domain/value_objects/food_name.dart';
 import 'package:fitstrive/domain/value_objects/macronutrients.dart';
 import 'package:fitstrive/domain/value_objects/weight.dart';
+import 'package:uuid/uuid.dart';
 
 final class FoodLog {
   factory FoodLog({
-    required final String id,
     required final FoodName foodname,
     required final Macronutrients macronutrients,
     required final Weight weight,
     required final double calories,
     required final DateTime date,
   }) {
+    final Uuid id = Uuid();
     return FoodLog._internal(
-      id,
+      id.v4(),
       foodname,
       macronutrients,
       weight,

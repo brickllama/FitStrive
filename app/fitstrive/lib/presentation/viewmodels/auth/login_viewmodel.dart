@@ -1,3 +1,5 @@
+import 'package:fitstrive/application/usecases/login_usecase.dart';
+import 'package:fitstrive/domain/abstractions/result.dart';
 import 'package:flutter/material.dart';
 import '../base_viewmodel.dart';
 import '../../models/auth/auth_form_models.dart';
@@ -7,6 +9,9 @@ import '../../models/auth/auth_validators.dart';
 // TODO: import from application layer once available
 
 class LoginViewModel extends BaseViewModel {
+  final LoginUseCase loginUseCase;
+
+  LoginViewModel({required this.loginUseCase});
   // form controllers, owned by the ViewModel, not the View
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -51,8 +56,14 @@ class LoginViewModel extends BaseViewModel {
     // stop if form is invalid
     if (!formKey.currentState!.validate()) return false;
 
-  // inherited from BaseViewModel
+    // inherited from BaseViewModel
     return runAsync(() async {
+      final result = await loginUseCase.execute(
+        email: _form.email,
+        password: _form.password,
+      );
+      if (result is Ok) {
+      } else {}
       // TODO: use application layer use case
       //
       // will probably use something like:
@@ -65,7 +76,7 @@ class LoginViewModel extends BaseViewModel {
       // );
 
       // placeholder delay until application layer is connected
-      await Future.delayed(const Duration(seconds: 1));
+      //await Future.delayed(const Duration(seconds: 1));
     });
   }
 
