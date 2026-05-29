@@ -1,27 +1,25 @@
 import pool from '../db/pool';
 
-/**
- * Handles user persistence.
- */
 export class UserRepository {
 
-
-    /**
-     * Registers a new user in the database.
-     * @param uuid - User UUID.
-     * @param email - User email.
-     * @param firstName - User first name.
-     * @param lastName - User last name.
-     * @param passwordHash 
-     * @returns The created `UserDTO`.
-     */
-    static async createUser(uuid: string, email: string, firstName: string, lastName: string, passwordHash: string) {
+    static async createUser(
+        uuid: string,
+        email: string,
+        firstName: string,
+        lastName: string,
+        passwordHash: string
+    ) {
         const result = await pool.query(
             `INSERT INTO users (uuid, email, first_name, last_name, password_hash)
             VALUES ($1, $2, $3, $4, $5)
+            ON CONFLICT (email)
+            DO NOTHING
             RETURNING uuid, email, first_name, last_name`,
             [uuid, email, firstName, lastName, passwordHash]
         );
+        if (result.rows.length === 0) {
+            return null; // USER exists?
+        }
         var row = result.rows[0];
         return {
             uuid: row.uuid,
@@ -31,38 +29,14 @@ export class UserRepository {
         };
     }
 
-    /**
-     * Gets all users in the database.
-     * @returns `UserDTO[]`.
-     */
-    static async getAllUsers() {
-        const result = await pool.query(`SELECT uuid, email, first_name, last_name FROM users`);
+    static async getUsers() {
+        const result = await pool.query(
+            `SELECT uuid, email, first_name, last_name FROM users`
+        );
+        if (result.rows.length === 0) {
+            return null; // USERS dont exist???
+        }
         return result.rows;
     }
 
-    /**
-     * Gets a user by email.
-     * @param email - The user's email
-     * @returns `UserDTO`.
-     */
-    static async getUserByEmail(email: string) {
-        const result = await pool.query(
-            `SELECT uuid, email, first_name, last_name FROM users WHERE email = $1`,
-            [email]
-        );
-        return result.rows[0];
-    }
-
-    /**
-     * Gets a user by UUID.
-     * @param uuid - The user's UUID.
-     * @returns `UserDTO`.
-     */
-    static async getUserByUuid(uuid: string) {
-        const result = await pool.query(
-            `SELECT uuid, email, first_name, last_name FROM users WHERE uuid = $1`,
-            [uuid]
-        );
-        return result.rows[0];
-    }
 }
