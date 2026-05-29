@@ -1,8 +1,10 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'core/database/fitstrive_database.dart';
 import 'presentation/presentation.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: 'config/.env');
   AppDatabase db = AppDatabase();
   runApp(const FitStriveApp());
 }
