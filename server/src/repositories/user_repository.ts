@@ -5,6 +5,7 @@ import pool from '../db/pool';
  */
 export class UserRepository {
 
+
     /**
      * Registers a new user in the database.
      * @param uuid - User UUID.
@@ -21,7 +22,13 @@ export class UserRepository {
             RETURNING uuid, email, first_name, last_name`,
             [uuid, email, firstName, lastName, passwordHash]
         );
-        return result.rows[0];
+        var row = result.rows[0];
+        return {
+            uuid: row.uuid,
+            email: row.email,
+            firstName: row.first_name,
+            lastName: row.last_name
+        };
     }
 
     /**
