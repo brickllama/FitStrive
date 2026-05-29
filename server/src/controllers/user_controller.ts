@@ -22,7 +22,7 @@ export class UserController {
             if (result === null) {
                 return res.status(204).json({ error: 'No users found' });
             }
-            return res.status(200).json(result);
+            return res.json(result);
         } catch (error) {
             console.error('Error fetching users: ', error);
             return res.status(500).json({ error: 'Internal server error' });
