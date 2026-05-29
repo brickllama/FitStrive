@@ -1,11 +1,9 @@
-import 'package:fitstrive/data/datasources/food_local_data_source.dart';
 import 'package:flutter/material.dart';
 import 'core/database/fitstrive_database.dart';
 import 'presentation/presentation.dart';
 
 void main() {
   AppDatabase db = AppDatabase();
-  FoodLocalDataSourceImpl foodLocalDataSourceImpl = FoodLocalDataSourceImpl(db);
   runApp(const FitStriveApp());
 }
 

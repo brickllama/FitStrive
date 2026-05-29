@@ -10,17 +10,15 @@ final class User {
     required final UserID id,
     required final Email email,
     required final Name name,
-    required final UserHealth health,
   }) {
-    return User._internal(id, email, name, health);
+    return User._internal(id, email, name);
   }
 
   final UserID id;
   final Email email;
   final Name name;
-  final UserHealth health;
 
   // PRIVATE
 
-  User._internal(this.id, this.email, this.name, this.health);
+  User._internal(this.id, this.email, this.name);
 }
