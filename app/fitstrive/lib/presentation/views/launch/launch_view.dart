@@ -83,21 +83,22 @@ class _LaunchContent extends StatelessWidget {
 
   // submit handlers for the two options on the launch screen
   // tells the ViewModel to set the auth mode to account or guest
-
-  Future<void> _onContinueAsAccount(
-      BuildContext context, LaunchViewModel vm) async {
-    final success = await vm.continueAsAccount();
-    if (success && context.mounted) {
-      Navigator.pushNamed(context, '/login');
-    }
+  //
+  // No await needed — continueAsAccount is now synchronous
+  void _onContinueAsAccount(BuildContext context, LaunchViewModel vm) {
+    vm.continueAsAccount();
+    Navigator.pushNamed(context, '/login');
   }
 
-  Future<void> _onContinueAsGuest(
-      BuildContext context, LaunchViewModel vm) async {
-    final success = await vm.continueAsGuest();
-    if (success && context.mounted) {
-      Navigator.pushNamed(context, '/daily-intake-stats');
-    }
+  // No await needed — continueAsGuest is now synchronous
+  void _onContinueAsGuest(BuildContext context, LaunchViewModel vm) {
+    vm.continueAsGuest();
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/daily-intake-stats',
+      // clears the stack, no way to back to launch
+      (route) => false,
+    );
   }
 }
 
