@@ -5,12 +5,15 @@ final class UserDTO {
   ///
   /// [email] - The user's email.
   ///
+  /// [username] - The user's username.
+  ///
   /// [firstName] - The user's first name.
   ///
   /// [lastName] - The user's last name (optional).
   UserDTO({
     required this.id,
     required this.email,
+    required this.username,
     required this.firstName,
     this.lastName,
   });
@@ -22,6 +25,7 @@ final class UserDTO {
     return UserDTO(
       id: json['uuid'] as String,
       email: json['email'] as String,
+      username: json['username'] as String,
       firstName: json['firstName'] as String,
       lastName: json['lastName'] as String?,
     );
@@ -29,6 +33,7 @@ final class UserDTO {
 
   final String id;
   final String email;
+  final String username;
   final String firstName;
   final String? lastName;
 }

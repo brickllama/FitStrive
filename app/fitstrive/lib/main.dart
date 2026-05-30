@@ -1,5 +1,7 @@
 import 'package:fitstrive/application/usecases/login_usecase.dart';
 import 'package:fitstrive/application/usecases/register_usecase.dart';
+import 'package:fitstrive/application/use_cases/user_login_use_case.dart';
+import 'package:fitstrive/application/use_cases/user_registration_use_case.dart';
 import 'package:fitstrive/data/datasources/remote_user_datasource_impl.dart';
 import 'package:fitstrive/data/datasources/user_local_source.dart';
 import 'package:fitstrive/data/repositories/user_repository_impl.dart';
@@ -13,8 +15,7 @@ import 'presentation/presentation.dart';
 
 void main() async {
   await dotenv.load(fileName: 'config/.env');
-  final db = AppDatabase();
-  final foodLocalDataSource = FoodLocalDataSourceImpl(db);
+  AppDatabase db = AppDatabase();
   final remoteUserDataSource = RemoteUserDatasourceImpl();
   final userLocalSource = UserLocalSourceImpl(db);
 
@@ -59,22 +60,33 @@ class FitStriveApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FitStrive',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00C853)),
-        fontFamily: 'Roboto',
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => LoginViewModel(loginUseCase: _loginUseCase),
+        ),
+        ChangeNotifierProvider(
+          create: (_) =>
+              RegisterViewModel(registrationUseCase: _registrationUseCase),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'FitStrive',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00C853)),
+          fontFamily: 'Roboto',
+        ),
+        home: const LaunchView(),
+        routes: {
+          '/launch': (_) => const LaunchView(),
+          '/login': (_) => const LoginView(),
+          '/register': (_) => const RegisterView(),
+          '/forgot-password': (_) => const ForgotPasswordView(),
+          '/daily-intake-stats': (_) => const DailyIntakeView(),
+        },
       ),
-      home: const LaunchView(),
-      routes: {
-        '/launch': (_) => const LaunchView(),
-        '/login': (_) => const LoginView(),
-        '/register': (_) => const RegisterView(),
-        '/forgot-password': (_) => const ForgotPasswordView(),
-        '/daily-intake-stats': (_) => const DailyIntakeView(),
-      },
     );
   }
 }

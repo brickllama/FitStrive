@@ -48,8 +48,8 @@ export class UserController {
 
     static async register(req: Request, res: Response) {
         try {
-            const { email, firstName, lastName, password } = req.body;
-            const user = await Service.register(email, firstName, lastName, password);
+            const { email, username, firstName, lastName, password } = req.body;
+            const user = await Service.register(email, username, firstName, lastName, password);
             if (!user) {
                 return res.status(409).json({ error: 'User exists' });
             }

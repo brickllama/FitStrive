@@ -8,14 +8,12 @@ final class UserHealth {
   /// Creates a [UserHealth] from a [height] and [weight].
   ///
   ///
-  factory UserHealth({
-    required final String id,
-    required final Height height,
-    required final Weight weight,
-    required final DateTime time,
-  }) {
-    return UserHealth._internal(id, height, weight, time);
-  }
+  UserHealth({
+    required this.id,
+    required this.height,
+    required this.weight,
+    required this.time,
+  });
 
   BodyMassIndex get bmi => BodyMassIndex(height: height, weight: weight);
 
@@ -23,8 +21,4 @@ final class UserHealth {
   final Height height;
   final Weight weight;
   final DateTime time;
-
-  // PRIVATE
-
-  UserHealth._internal(this.id, this.height, this.weight, this.time);
 }
