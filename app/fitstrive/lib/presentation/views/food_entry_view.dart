@@ -8,13 +8,11 @@ class FoodEntryView extends StatefulWidget {
 }
 
 class _FoodEntryViewState extends State<FoodEntryView> {
-  // New controller just for the weight input
   final TextEditingController _weightController = TextEditingController(); 
   
   String _selectedMeal = 'Breakfast'; 
   final List<String> _mealOptions = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
 
-  // 1. The Upgraded Database: Calories per 100 grams
   final Map<String, int> _foodDatabase = {
     'Apple': 52, 
     'White Rice (Cooked)': 130,
@@ -29,12 +27,10 @@ class _FoodEntryViewState extends State<FoodEntryView> {
   int _selectedFoodCaloriesPer100g = 0;
   int _totalCalculatedCalories = 0;
 
-  // 2. The Calculator Engine
-  // This runs every time the user types a new weight or picks a new food
   void _calculateCalories() {
     final weightText = _weightController.text;
+    // print("typing weight: " + weightText);
     
-    // If they haven't typed a weight or picked a food, reset to 0
     if (weightText.isEmpty || _selectedFoodCaloriesPer100g == 0) {
       setState(() {
         _totalCalculatedCalories = 0;
@@ -42,10 +38,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
       return;
     }
 
-    // Convert their text into a decimal number
     final weightInGrams = double.tryParse(weightText) ?? 0;
-    
-    // The Math: (Weight / 100) * Calories per 100g
     setState(() {
       _totalCalculatedCalories = ((weightInGrams / 100) * _selectedFoodCaloriesPer100g).round();
     });
@@ -54,16 +47,17 @@ class _FoodEntryViewState extends State<FoodEntryView> {
   void _saveFood() async {
     if (_finalSelectedFood.isEmpty || _totalCalculatedCalories == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a food and enter its weight!')),
+        SnackBar(content: Text('Please select a food and enter its weight!')), // dropped const
       );
       return;
     }
-
+    
     FocusScope.of(context).unfocus();
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Logged $_totalCalculatedCalories kcal of $_finalSelectedFood!')),
+        // used clunky string addition instead of nice interpolation
+        SnackBar(content: Text('Logged ' + _totalCalculatedCalories.toString() + ' kcal of ' + _finalSelectedFood + '!')),
       );
       Navigator.pop(context); 
     }
@@ -73,16 +67,16 @@ class _FoodEntryViewState extends State<FoodEntryView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Log a Meal'),
+        title: Text('Log a Meal'),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(25.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             DropdownButtonFormField<String>(
               value: _selectedMeal,
-              decoration: const InputDecoration(
+              decoration: InputDecoration( // dropping const
                 labelText: 'Meal Type',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.access_time),
@@ -99,7 +93,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
                 });
               },
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 15),
             
             Autocomplete<String>(
               optionsBuilder: (TextEditingValue textEditingValue) {
@@ -113,7 +107,6 @@ class _FoodEntryViewState extends State<FoodEntryView> {
               onSelected: (String selection) {
                 setState(() {
                   _finalSelectedFood = selection;
-                  // Look up the baseline calories and run the math!
                   _selectedFoodCaloriesPer100g = _foodDatabase[selection]!;
                   _calculateCalories();
                 });
@@ -133,7 +126,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
             ),
             const SizedBox(height: 16),
             
-            // 3. The New Weight Input Field
+            // weight input
             TextField(
               controller: _weightController,
               decoration: const InputDecoration(
@@ -143,12 +136,10 @@ class _FoodEntryViewState extends State<FoodEntryView> {
                 suffixText: 'g',
               ),
               keyboardType: TextInputType.number,
-              // Run the math every single time they press a key!
               onChanged: (value) => _calculateCalories(),
             ),
             const SizedBox(height: 32),
             
-            // 4. The Live Results Display
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -157,13 +148,13 @@ class _FoodEntryViewState extends State<FoodEntryView> {
               ),
               child: Column(
                 children: [
-                  const Text(
+                  Text(
                     'Total Calories',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '$_totalCalculatedCalories kcal',
+                    _totalCalculatedCalories.toString() + ' kcal',
                     style: TextStyle(
                       fontSize: 36, 
                       fontWeight: FontWeight.bold,
@@ -180,7 +171,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
               ),
-              child: const Text('Save Meal', style: TextStyle(fontSize: 18)),
+              child: Text('Save Meal', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),

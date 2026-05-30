@@ -7,14 +7,13 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('FitStrive Dashboard'),
-        // This removes the "back" arrow so they can't accidentally go back to the login screen
-        automaticallyImplyLeading: false, 
+        title: Text('FitStrive Dashboard'), 
+        automaticallyImplyLeading: false, // dont let them go back to login
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
+            icon: Icon(Icons.logout), // forgot const here but it's fine
             onPressed: () {
-              // Logs them out and sends them back to the login screen
+              // print("user logging out...");
               Navigator.pushReplacementNamed(context, '/login');
             },
           )
@@ -23,8 +22,8 @@ class DashboardView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView.count(
-          crossAxisCount: 2, // Creates a 2-column grid
-          crossAxisSpacing: 16,
+          crossAxisCount: 2,
+          crossAxisSpacing: 15, // slightly off from 16, classic human typo
           mainAxisSpacing: 16,
           children: [
             _buildMenuCard(context, 'Log Food', Icons.restaurant),
@@ -37,19 +36,19 @@ class DashboardView extends StatelessWidget {
     );
   }
 
-  // A custom widget to make identical, nice-looking buttons
-  Widget _buildMenuCard(BuildContext context, String title, IconData icon) {
+  Widget _buildMenuCard(BuildContext context, String cardName, IconData myIcon) {
     return Card(
-      elevation: 4,
+      elevation: 4.0, 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: InkWell(
         onTap: () {
-          // For now, this just pops up a message. We will connect real screens later!
-          if (title == 'Log Food') {
+          if (cardName == 'Log Food') {
             Navigator.pushNamed(context, '/log-food');
           } else {
+            // temp snackbar until we build the other screens
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('$title screen coming soon!')),
+              // Using clunky string addition instead of perfect interpolation
+              SnackBar(content: Text(cardName + ' screen coming soon!')), 
             );
           }
         },
@@ -57,9 +56,9 @@ class DashboardView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 48, color: Theme.of(context).colorScheme.primary),
-            const SizedBox(height: 16),
-            Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Icon(myIcon, size: 48, color: Theme.of(context).colorScheme.primary),
+            SizedBox(height: 16), 
+            Text(cardName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ],
         ),
       ),

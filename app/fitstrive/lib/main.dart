@@ -5,6 +5,7 @@ import 'presentation/presentation.dart';
 import 'presentation/views/dashboard/dashboard_view.dart';
 import 'presentation/views/food_entry_view.dart';
 
+
 void main() {
   AppDatabase db = AppDatabase();
   FoodLocalDataSourceImpl foodLocalDataSourceImpl = FoodLocalDataSourceImpl(db);
@@ -32,6 +33,7 @@ class FitStriveApp extends StatelessWidget {
         '/forgot-password': (_) => const ForgotPasswordView(),
         '/dashboard': (_) => const DashboardView(),
         '/log-food': (_) => const FoodEntryView(),
+
       },
     );
   }
