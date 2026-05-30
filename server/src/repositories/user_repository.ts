@@ -2,7 +2,7 @@ import pool from '../db/pool';
 
 export class UserRepository {
 
-    static async createUser(
+    static async create(
         uuid: string,
         email: string,
         firstName: string,
@@ -29,7 +29,16 @@ export class UserRepository {
         };
     }
 
-    static async getUsers() {
+    static async remove(uuid: string) {
+        const result = await pool.query(
+            `DELETE FROM users
+            WHERE uuid = $1`,
+            [uuid]
+        );
+        return result.rowCount !== 0;
+    }
+
+    static async getAll() {
         const result = await pool.query(
             `SELECT uuid, email, first_name, last_name FROM users`
         );
@@ -39,4 +48,22 @@ export class UserRepository {
         return result.rows;
     }
 
+    static async getByEmail(email: string) {
+        const result = await pool.query(
+            `SELECT uuid, email, first_name, last_name, password_hash FROM users
+            WHERE email = $1`,
+            [email]
+        );
+        if (result.rows.length === 0) {
+            return null; // USER doesnt exist???
+        }
+        var row = result.rows[0];
+        return {
+            uuid: row.uuid,
+            email: row.email,
+            firstName: row.first_name,
+            lastName: row.last_name,
+            passwordHash: row.password_hash
+        };
+    }
 }
