@@ -4,12 +4,12 @@ import { UserMiddleware as Middleware } from '../middlewares/user_middleware';
 
 const router = Router();
 
-router.delete('/:uuid', Middleware.validateUuid, Controller.deleteUser);
+router.delete('/:uuid', Middleware.validateUuid, Controller.delete);
 
-router.get('/', Controller.getUsers);
+router.get('/', Controller.getAll);
 
-router.post('/login', Middleware.validateEmail, Middleware.validatePassword, Controller.loginUser);
+router.post('/login', Middleware.validateEmail, Middleware.validatePassword, Controller.login);
 
-router.post('/register', Middleware.validateEmail, Middleware.validatePassword, Controller.registerUser);
+router.post('/register', Middleware.validateEmail, Middleware.validatePassword, Controller.register);
 
 export default router;
