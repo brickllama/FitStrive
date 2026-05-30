@@ -13,13 +13,11 @@ import 'presentation/presentation.dart';
 
 void main() async {
   await dotenv.load(fileName: 'config/.env');
-
   final db = AppDatabase();
   final foodLocalDataSource = FoodLocalDataSourceImpl(db);
-  final userLocalSource = UserLocalSourceImpl(db);
   final remoteUserDataSource = RemoteUserDatasourceImpl();
   final userLocalSource = UserLocalSourceImpl(db);
-
+  
   final userRepository = UserRepositoryImpl(
     localSource: userLocalSource,
     remoteSource: remoteUserDataSource,
@@ -36,11 +34,9 @@ void main() async {
   final loginUseCase = LoginUseCase(userRepository);
   final registerUseCase = RegisterUseCase(userRepository);
 
-  runApp(FitStriveApp(
-    loginUseCase: loginUseCase,
-    registerUseCase: registerUseCase,
-    foodLocalDataSource: foodLocalDataSource,
-  ));
+  runApp(
+    FitStriveApp(loginUseCase: loginUseCase, registerUseCase: registerUseCase),
+  );
 }
 
 class FitStriveApp extends StatelessWidget {
@@ -54,13 +50,11 @@ class FitStriveApp extends StatelessWidget {
   });
   final LoginUseCase loginUseCase;
   final RegisterUseCase registerUseCase;
-  final FoodLocalDataSourceImpl foodLocalDataSource;
 
   const FitStriveApp({
     super.key,
     required this.loginUseCase,
     required this.registerUseCase,
-    required this.foodLocalDataSource,
   });
 
 @override
