@@ -3,9 +3,9 @@ import { UserService as Service } from '../services/user_service';
 
 export class UserController {
 
-    static async delete(req: Request, res: Response) {
+    static async delete(req: Request<{ uuid: string }>, res: Response) {
         try {
-            const { uuid } = req.body;
+            const { uuid } = req.params;
             const result = await Service.delete(uuid);
 
             if (result === false) {
