@@ -7,6 +7,11 @@ import '../mappers/user_mapper.dart';
 import 'package:fitstrive/application/abstractions/remote_user_datasource.dart';
 import 'package:fitstrive/domain/abstractions/result.dart';
 import 'package:fitstrive/domain/entities/user.dart';
+import 'package:fitstrive/domain/value_objects/email.dart';
+import 'package:fitstrive/domain/value_objects/name.dart';
+import 'package:fitstrive/domain/value_objects/username.dart';
+import 'package:fitstrive/domain/value_objects/user_id.dart';
+import 'package:fitstrive/domain/value_objects/password.dart';
 
 final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
   static final String _url = '${AppConfig.apiUrl}/users';
@@ -16,9 +21,9 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
   ///
   /// [userID] - The user's ID.
   @override
-  Future<Result<void>> delete(final String userID) async {
+  Future<Result<void>> delete(final UserID userID) async {
     try {
-      final response = await http.delete(Uri.parse('$_url/$userID'));
+      final response = await http.delete(Uri.parse('$_url/${userID.value}'));
 
       if (response.statusCode == 204) {
         return Result.ok(null);
@@ -38,7 +43,7 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
   ///
   /// [password] - The user's password.
   @override
-  Future<Result<User>> login(final String email, final String password) async {
+  Future<Result<User>> login(final Email email, final Password password) async {
     try {
       final response = await http.post(
         Uri.parse('$_url/login'),
@@ -46,8 +51,8 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
-          'email': email,
-          'password': password,
+          'email': email.value,
+          'password': password.value,
         }),
       );
 
@@ -77,11 +82,10 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
   /// [password] - The user's password.
   @override
   Future<Result<User>> register(
-    final String email,
-    final String username,
-    final String firstName,
-    final String? lastName,
-    final String password,
+    final Email email,
+    final Username username,
+    final Name name,
+    final Password password,
   ) async {
     try {
       final response = await http.post(
@@ -90,11 +94,11 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, dynamic>{
-          'email': email,
-          'username': username,
-          'firstName': firstName,
-          'lastName': lastName,
-          'password': password,
+          'email': email.value,
+          'username': username.value,
+          'firstName': name.firstName,
+          'lastName': name.lastName,
+          'password': password.value,
         }),
       );
 

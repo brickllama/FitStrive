@@ -9,7 +9,7 @@ final class Username {
   factory Username({required final String value}) {
     if (!_alphanumeric.hasMatch(value)) {
       throw FormatException(
-        'Weight can only include letters, digits, and underscores',
+        'Username can only include letters, digits, and underscores',
       );
     }
     return Username._internal(value);

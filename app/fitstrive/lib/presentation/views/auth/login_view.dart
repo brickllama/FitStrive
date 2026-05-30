@@ -65,7 +65,7 @@ class _LoginContent extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       autofocus: true,
-                      validator: vm.validateEmail,
+                      // validator: vm.validateEmail,
                       onChanged: vm.onEmailChanged,
                     ),
                     const SizedBox(height: 16),
@@ -76,7 +76,7 @@ class _LoginContent extends StatelessWidget {
                       label: 'Password',
                       obscureText: vm.obscurePassword,
                       onToggleVisibility: vm.togglePasswordVisibility,
-                      validator: vm.validatePassword,
+                      // validator: vm.validatePassword,
                       onChanged: vm.onPasswordChanged,
                       // submit when user presses enter on keyboard
                       onFieldSubmitted: (_) => _submit(context, vm),

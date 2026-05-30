@@ -1,5 +1,5 @@
-import 'package:fitstrive/application/usecases/login_usecase.dart';
-import 'package:fitstrive/application/usecases/register_usecase.dart';
+import 'package:fitstrive/application/use_cases/user_login_use_case.dart';
+import 'package:fitstrive/application/use_cases/user_registration_use_case.dart';
 import 'package:fitstrive/data/datasources/remote_user_datasource_impl.dart';
 import 'package:fitstrive/data/datasources/user_local_source.dart';
 import 'package:fitstrive/data/repositories/user_repository_impl.dart';
@@ -21,33 +21,43 @@ void main() async {
     localSource: userLocalSource,
     remoteSource: remoteUserDataSource,
   );
-  final loginUseCase = LoginUseCase(userRepository);
-  final registerUseCase = RegisterUseCase(userRepository);
+  final loginUseCase = UserLoginUseCase(
+    remoteUserDatasource: remoteUserDataSource,
+  );
+  final registrationUseCase = UserRegistrationUseCase(
+    remoteUserDatasource: remoteUserDataSource,
+  );
 
   runApp(
-    FitStriveApp(loginUseCase: loginUseCase, registerUseCase: registerUseCase),
+    FitStriveApp(
+      loginUseCase: loginUseCase,
+      registrationUseCase: registrationUseCase,
+    ),
   );
 }
 
 class FitStriveApp extends StatelessWidget {
-  final LoginUseCase loginUseCase;
-  final RegisterUseCase registerUseCase;
+  final UserLoginUseCase _loginUseCase;
+  // final RegisterUseCase registerUseCase;
+  final UserRegistrationUseCase _registrationUseCase;
 
   const FitStriveApp({
     super.key,
-    required this.loginUseCase,
-    required this.registerUseCase,
-  });
+    required UserLoginUseCase loginUseCase,
+    required UserRegistrationUseCase registrationUseCase,
+  }) : _loginUseCase = loginUseCase,
+       _registrationUseCase = registrationUseCase;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => LoginViewModel(loginUseCase: loginUseCase),
+          create: (_) => LoginViewModel(loginUseCase: _loginUseCase),
         ),
         ChangeNotifierProvider(
-          create: (_) => RegisterViewModel(registerUseCase: registerUseCase),
+          create: (_) =>
+              RegisterViewModel(registrationUseCase: _registrationUseCase),
         ),
       ],
       child: MaterialApp(
