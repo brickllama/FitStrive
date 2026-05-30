@@ -96,7 +96,7 @@ class _LaunchContent extends StatelessWidget {
       BuildContext context, LaunchViewModel vm) async {
     final success = await vm.continueAsGuest();
     if (success && context.mounted) {
-      // TODO: send user straight to dashboard
+      Navigator.pushNamed(context, '/daily-intake-stats');
     }
   }
 }

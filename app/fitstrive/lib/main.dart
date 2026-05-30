@@ -28,6 +28,7 @@ class FitStriveApp extends StatelessWidget {
         '/login': (_) => const LoginView(),
         '/register': (_) => const RegisterView(),
         '/forgot-password': (_) => const ForgotPasswordView(),
+        '/daily-intake-stats': (_) => const DailyIntakeView(),
       },
     );
   }
