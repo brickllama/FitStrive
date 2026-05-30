@@ -17,7 +17,7 @@ void main() async {
   final foodLocalDataSource = FoodLocalDataSourceImpl(db);
   final remoteUserDataSource = RemoteUserDatasourceImpl();
   final userLocalSource = UserLocalSourceImpl(db);
-  
+
   final userRepository = UserRepositoryImpl(
     localSource: userLocalSource,
     remoteSource: remoteUserDataSource,
@@ -57,7 +57,7 @@ class FitStriveApp extends StatelessWidget {
     required this.registerUseCase,
   });
 
-@override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FitStrive',
@@ -73,7 +73,8 @@ class FitStriveApp extends StatelessWidget {
         '/login': (_) => const LoginView(),
         '/register': (_) => const RegisterView(),
         '/forgot-password': (_) => const ForgotPasswordView(),
-        '/daily-intake-stats': (_) => const DailyIntakeView()
+        '/daily-intake-stats': (_) => const DailyIntakeView(),
       },
     );
   }
+}
