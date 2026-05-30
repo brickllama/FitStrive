@@ -39,8 +39,9 @@ class FitStriveApp extends StatelessWidget {
     required this.registerUseCase,
   });
 
-  @override
+@override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return MaterialApp(
       title: 'FitStrive',
       debugShowCheckedModeBanner: false,
@@ -48,6 +49,33 @@ class FitStriveApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00C853)),
         fontFamily: 'Roboto',
+=======
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => LoginViewModel(loginUseCase: loginUseCase),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RegisterViewModel(registerUseCase: registerUseCase),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'FitStrive',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00C853)),
+          fontFamily: 'Roboto',
+        ),
+        home: const LaunchView(),
+        routes: {
+          '/launch': (_) => const LaunchView(),
+          '/login': (_) => const LoginView(),
+          '/register': (_) => const RegisterView(),
+          '/forgot-password': (_) => const ForgotPasswordView(),
+          '/daily-intake-stats': (_) => const DailyIntakeView(),
+        },
+>>>>>>> 3e3361b (daily intake stats implemented)
       ),
       home: const LaunchView(),
       routes: {
@@ -59,4 +87,9 @@ class FitStriveApp extends StatelessWidget {
       },
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 3e3361b (daily intake stats implemented)
