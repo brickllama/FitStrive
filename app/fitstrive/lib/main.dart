@@ -77,8 +77,3 @@ class FitStriveApp extends StatelessWidget {
       },
     );
   }
-<<<<<<< HEAD
-}
-=======
-}
-
