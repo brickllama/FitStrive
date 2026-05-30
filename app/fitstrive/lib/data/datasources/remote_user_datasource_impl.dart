@@ -68,6 +68,8 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
   ///
   /// [email] - The user's email.
   ///
+  /// [username] - The user's username.
+  ///
   /// [firstName] - The user's first name.
   ///
   /// [lastName] - The user's last name.
@@ -76,6 +78,7 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
   @override
   Future<Result<User>> register(
     final String email,
+    final String username,
     final String firstName,
     final String? lastName,
     final String password,
@@ -88,6 +91,7 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
         },
         body: jsonEncode(<String, dynamic>{
           'email': email,
+          'username': username,
           'firstName': firstName,
           'lastName': lastName,
           'password': password,

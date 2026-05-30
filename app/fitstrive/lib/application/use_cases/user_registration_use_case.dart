@@ -14,6 +14,8 @@ final class UserRegistrationUseCase {
   ///
   /// [email] - The user's email.
   ///
+  /// [username] - The user's username.
+  ///
   /// [firstName] - The user's first name.
   ///
   /// [lastName] - The user's last name.
@@ -21,12 +23,14 @@ final class UserRegistrationUseCase {
   /// [password] - The user's password.
   Future<Result<User>> execute(
     final String email,
+    final String username,
     final String firstName,
     final String? lastName,
     final String password,
   ) async {
     return await _remoteUserDatasource.register(
       email,
+      username,
       firstName,
       lastName,
       password,

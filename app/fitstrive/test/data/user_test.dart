@@ -13,11 +13,13 @@ void main() async {
 
     test('/register POST', () async {
       final String email = 'john.smith@gmail.com';
+      final String username = '02johnny';
       final String firstName = 'john';
       final String? lastName = null;
       final String password = 'p@ssW0rd!';
       final result = await datasource.register(
         email,
+        username,
         firstName,
         lastName,
         password,
@@ -27,6 +29,7 @@ void main() async {
       user = result.value;
       expect(user.id.value, isNotNull);
       expect(user.email.value, email);
+      expect(user.username.value, username);
       expect(user.name.firstName, firstName);
       expect(user.name.lastName, lastName);
     });

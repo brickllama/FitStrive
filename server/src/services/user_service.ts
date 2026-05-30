@@ -24,14 +24,15 @@ export class UserService {
         return {
             uuid: user.uuid,
             email: user.email,
+            username: user.username,
             firstName: user.firstName,
             lastName: user.lastName
         };
     }
 
-    static async register(email: string, firstName: string, lastName: string, password: string) {
+    static async register(email: string, username: string, firstName: string, lastName: string, password: string) {
         const uuid = randomUUID();
         const passwordHash = await hash(password, 12);
-        return Repository.create(uuid, email, firstName, lastName, passwordHash);
+        return Repository.create(uuid, email, username, firstName, lastName, passwordHash);
     }
 }

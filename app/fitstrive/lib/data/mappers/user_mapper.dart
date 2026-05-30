@@ -2,6 +2,7 @@ import '../dtos/user_dto.dart';
 import 'package:fitstrive/domain/entities/user.dart';
 import 'package:fitstrive/domain/value_objects/email.dart';
 import 'package:fitstrive/domain/value_objects/name.dart';
+import 'package:fitstrive/domain/value_objects/username.dart';
 import 'package:fitstrive/domain/value_objects/user_id.dart';
 
 final class UserMapper {
@@ -12,6 +13,7 @@ final class UserMapper {
     return User(
       id: UserID(value: dto.id),
       email: Email(value: dto.email),
+      username: Username(value: dto.username),
       name: Name(firstName: dto.firstName, lastName: dto.lastName),
     );
   }
@@ -23,6 +25,7 @@ final class UserMapper {
     return UserDTO(
       id: user.id.value,
       email: user.email.value,
+      username: user.username.value,
       firstName: user.name.firstName,
       lastName: user.name.lastName,
     );

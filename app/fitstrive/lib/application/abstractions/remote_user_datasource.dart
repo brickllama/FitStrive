@@ -8,6 +8,7 @@ abstract interface class RemoteUserDatasource {
 
   Future<Result<User>> register(
     final String email,
+    final String username,
     final String firstName,
     final String? lastName,
     final String password,
