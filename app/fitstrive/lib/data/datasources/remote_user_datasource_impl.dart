@@ -9,9 +9,24 @@ import 'package:fitstrive/domain/entities/user.dart';
 import 'package:fitstrive/domain/value_objects/email.dart';
 import 'package:fitstrive/domain/value_objects/name.dart';
 import 'package:fitstrive/domain/value_objects/password.dart';
+import 'package:fitstrive/domain/value_objects/user_id.dart';
 
 final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
   static final String _url = AppConfig.apiUrl;
+
+  @override
+  Future<Result<void>> delete(final UserID userID) async {
+    /// TODO: finish
+    return Result.ok(null);
+  }
+
+  @override
+  Future<Result<User>> login(final Email email, final Password password) async {
+    /// TODO: finish
+    return Result.ok(
+      UserModel(id: '', email: '', firstName: '', lastName: '').toEntity(),
+    );
+  }
 
   @override
   Future<Result<User>> register(
@@ -20,7 +35,6 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
     final Password password,
   ) async {
     try {
-      print('API URL: $_url/users');
       final response = await http.post(
         Uri.parse('$_url/users'),
         headers: <String, String>{
@@ -38,15 +52,10 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
         final UserModel userModel = UserModel.fromJson(
           jsonDecode(response.body) as Map<String, dynamic>,
         );
-        print('it worked!');
         return Result.ok(userModel.toEntity());
       }
-      final code = response.statusCode;
-      final msg = response.body;
-      print('it did not work, wrong http response, $code \\ $msg');
       return Result.error(HttpException('Invalid Response'));
     } on Exception catch (exception) {
-      print('CAUGHT');
       return Result.error(exception);
     }
   }
