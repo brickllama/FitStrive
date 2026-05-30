@@ -1,18 +1,15 @@
 import 'package:fitstrive/domain/abstractions/result.dart';
 import 'package:fitstrive/domain/entities/user.dart';
-import 'package:fitstrive/domain/value_objects/email.dart';
-import 'package:fitstrive/domain/value_objects/name.dart';
-import 'package:fitstrive/domain/value_objects/password.dart';
-import 'package:fitstrive/domain/value_objects/user_id.dart';
 
 abstract interface class RemoteUserDatasource {
-  Future<Result<void>> delete(final UserID userID);
+  Future<Result<void>> delete(final String userID);
 
-  Future<Result<User>> login(final Email email, final Password password);
+  Future<Result<User>> login(final String email, final String password);
 
   Future<Result<User>> register(
-    final Email email,
-    final Name name,
-    final Password password,
+    final String email,
+    final String firstName,
+    final String? lastName,
+    final String password,
   );
 }
