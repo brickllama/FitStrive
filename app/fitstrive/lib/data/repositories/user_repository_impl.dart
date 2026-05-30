@@ -1,3 +1,4 @@
+import 'package:fitstrive/application/abstractions/remote_user_datasource.dart';
 import 'package:fitstrive/data/datasources/user_local_source.dart';
 import 'package:fitstrive/data/model/user_model.dart';
 import 'package:fitstrive/domain/abstractions/result.dart';
@@ -9,8 +10,9 @@ import 'package:fitstrive/domain/value_objects/user_id.dart';
 
 class UserRepositoryImpl extends UserRepository {
   UserLocalSource localSource;
+  RemoteUserDatasource remoteSource;
 
-  UserRepositoryImpl(this.localSource);
+  UserRepositoryImpl({required this.localSource, required this.remoteSource});
 
   @override
   Future<User> getUser() async {

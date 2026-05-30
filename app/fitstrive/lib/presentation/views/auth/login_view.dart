@@ -11,10 +11,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LoginViewModel(),
-      child: const _LoginContent(),
-    );
+    return _LoginContent();
   }
 }
 
@@ -81,7 +78,7 @@ class _LoginContent extends StatelessWidget {
                       onToggleVisibility: vm.togglePasswordVisibility,
                       validator: vm.validatePassword,
                       onChanged: vm.onPasswordChanged,
-                      // submit when user presses enter on keyboard 
+                      // submit when user presses enter on keyboard
                       onFieldSubmitted: (_) => _submit(context, vm),
                     ),
                     const SizedBox(height: 8),
@@ -90,7 +87,8 @@ class _LoginContent extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () => Navigator.pushNamed(context, '/forgot-password'),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, '/forgot-password'),
                         child: const Text('Forgot password?'),
                       ),
                     ),
@@ -113,7 +111,8 @@ class _LoginContent extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         TextButton(
-                          onPressed: () => Navigator.pushNamed(context, '/register'),
+                          onPressed: () =>
+                              Navigator.pushNamed(context, '/register'),
                           child: const Text('Create one'),
                         ),
                       ],

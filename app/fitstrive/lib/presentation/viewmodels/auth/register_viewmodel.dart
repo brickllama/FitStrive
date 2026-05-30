@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fitstrive/application/usecases/register_usecase.dart';
 import 'package:fitstrive/domain/abstractions/result.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +73,7 @@ class RegisterViewModel extends BaseViewModel {
     if (!formKey.currentState!.validate()) return false;
 
     return runAsync(() async {
+      log("Register Attempt");
       final result = await registerUseCase.execute(
         email: _form.email,
         password: _form.password,
