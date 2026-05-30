@@ -1,3 +1,5 @@
+import 'package:fitstrive/application/usecases/login_usecase.dart';
+import 'package:fitstrive/application/usecases/register_usecase.dart';
 import 'package:fitstrive/application/use_cases/user_login_use_case.dart';
 import 'package:fitstrive/application/use_cases/user_registration_use_case.dart';
 import 'package:fitstrive/data/datasources/remote_user_datasource_impl.dart';
@@ -21,32 +23,40 @@ void main() async {
     localSource: userLocalSource,
     remoteSource: remoteUserDataSource,
   );
-  final loginUseCase = UserLoginUseCase(
-    remoteUserDatasource: remoteUserDataSource,
+  final loginUseCase = LoginUseCase(userRepository);
+  final registerUseCase = RegisterUseCase(userRepository);
+  final remoteUserDataSource = RemoteUserDatasourceImpl();
+  final userLocalSource = UserLocalSourceImpl(db);
+
+  final userRepository = UserRepositoryImpl(
+    localSource: userLocalSource,
+    remoteSource: remoteUserDataSource,
   );
-  final registrationUseCase = UserRegistrationUseCase(
-    remoteUserDatasource: remoteUserDataSource,
-  );
+  final loginUseCase = LoginUseCase(userRepository);
+  final registerUseCase = RegisterUseCase(userRepository);
 
   runApp(
-    FitStriveApp(
-      loginUseCase: loginUseCase,
-      registrationUseCase: registrationUseCase,
-    ),
+    FitStriveApp(loginUseCase: loginUseCase, registerUseCase: registerUseCase),
   );
 }
 
 class FitStriveApp extends StatelessWidget {
-  final UserLoginUseCase _loginUseCase;
-  // final RegisterUseCase registerUseCase;
-  final UserRegistrationUseCase _registrationUseCase;
+  final LoginUseCase loginUseCase;
+  final RegisterUseCase registerUseCase;
 
   const FitStriveApp({
     super.key,
-    required UserLoginUseCase loginUseCase,
-    required UserRegistrationUseCase registrationUseCase,
-  }) : _loginUseCase = loginUseCase,
-       _registrationUseCase = registrationUseCase;
+    required this.loginUseCase,
+    required this.registerUseCase,
+  });
+  final LoginUseCase loginUseCase;
+  final RegisterUseCase registerUseCase;
+
+  const FitStriveApp({
+    super.key,
+    required this.loginUseCase,
+    required this.registerUseCase,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +84,7 @@ class FitStriveApp extends StatelessWidget {
           '/login': (_) => const LoginView(),
           '/register': (_) => const RegisterView(),
           '/forgot-password': (_) => const ForgotPasswordView(),
+          '/daily-intake-stats': (_) => const DailyIntakeView(),
         },
       ),
     );

@@ -11,6 +11,9 @@ export 'views/auth/login_view.dart';
 export 'views/auth/register_view.dart';
 export 'views/auth/forgot_password_view.dart';
 
+// Daily Intake
+export 'views/daily_intake_stats/daily_intake_stats_view.dart';
+
 // Account
 
 // Nutrition

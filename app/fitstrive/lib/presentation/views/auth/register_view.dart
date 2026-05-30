@@ -169,7 +169,7 @@ class _RegisterContent extends StatelessWidget {
     final success = await vm.register();
     // only navigate if registration succeeded and widget is still mounted
     if (success && context.mounted) {
-      // TODO: send user to dashboard
+      // TODO: send user to daily intake stats
     }
   }
 }

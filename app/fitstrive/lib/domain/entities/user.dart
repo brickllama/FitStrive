@@ -2,6 +2,8 @@ import '../value_objects/email.dart';
 import '../value_objects/name.dart';
 import '../value_objects/username.dart';
 import '../value_objects/user_id.dart';
+import '../value_objects/email.dart';
+import '../value_objects/name.dart';
 
 final class User {
   /// Constructs a [User] object.
