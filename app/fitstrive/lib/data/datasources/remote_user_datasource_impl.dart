@@ -86,10 +86,10 @@ final class RemoteUserDatasourceImpl implements RemoteUserDatasource {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
+        body: jsonEncode(<String, dynamic>{
           'email': email,
-          'first_name': firstName,
-          'last_name': ?lastName,
+          'firstName': firstName,
+          'lastName': lastName,
           'password': password,
         }),
       );
