@@ -20,8 +20,9 @@ class AuthValidators {
   // reusable strong password validator
   static String? strongPassword(String? value) {
     final base = password(value);
-    if (base ! == null) return base;
-    if (!RegExp(r'[A-Z]').hasMatch(value!)) return 'Include at least one uppercase letter';
+    if (base! == null) return base;
+    if (!RegExp(r'[A-Z]').hasMatch(value!))
+      return 'Include at least one uppercase letter';
     if (!RegExp(r'[0-9]').hasMatch(value)) return 'Include at least one number';
     return null;
   }

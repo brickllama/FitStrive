@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fitstrive/application/usecases/login_usecase.dart';
 import 'package:fitstrive/domain/abstractions/result.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +60,7 @@ class LoginViewModel extends BaseViewModel {
 
     // inherited from BaseViewModel
     return runAsync(() async {
+      log("Login Attempt");
       final result = await loginUseCase.execute(
         email: _form.email,
         password: _form.password,
