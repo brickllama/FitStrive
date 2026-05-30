@@ -3,21 +3,16 @@ import '../value_objects/email.dart';
 import '../value_objects/name.dart';
 
 final class User {
-  // PUBLIC
-
-  factory User({
-    required final UserID id,
-    required final Email email,
-    required final Name name,
-  }) {
-    return User._internal(id, email, name);
-  }
+  /// Constructs a [User] object.
+  ///
+  /// [id] The user's ID.
+  ///
+  /// [email] The user's email.
+  ///
+  /// [name] The user's name.
+  User({required this.id, required this.email, required this.name});
 
   final UserID id;
   final Email email;
   final Name name;
-
-  // PRIVATE
-
-  User._internal(this.id, this.email, this.name);
 }
