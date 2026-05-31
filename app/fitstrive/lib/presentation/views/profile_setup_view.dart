@@ -63,12 +63,6 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 8),
-            Text(
-              'We need this data to calculate your daily calorie goals.',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 32),
 
             TextField(
               controller: _nameController,
