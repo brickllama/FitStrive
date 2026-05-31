@@ -15,7 +15,7 @@ class FsTextField extends StatelessWidget {
   final TextInputAction textInputAction;
   final bool obscureText;
   final Widget? suffixIcon;
-  final String? Function(String?)? validator;
+  // final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final void Function(String)? onFieldSubmitted;
   final bool autofocus;
@@ -29,7 +29,7 @@ class FsTextField extends StatelessWidget {
     this.textInputAction = TextInputAction.next,
     this.obscureText = false,
     this.suffixIcon,
-    this.validator,
+    // this.validator,
     this.onChanged,
     this.onFieldSubmitted,
     this.autofocus = false,
@@ -43,7 +43,7 @@ class FsTextField extends StatelessWidget {
       textInputAction: textInputAction,
       obscureText: obscureText,
       autofocus: autofocus,
-      validator: validator,
+      // validator: validator,
       onChanged: onChanged,
       onFieldSubmitted: onFieldSubmitted,
       decoration: InputDecoration(
@@ -62,7 +62,7 @@ class FsPasswordField extends StatelessWidget {
   final String label;
   final bool obscureText;
   final VoidCallback onToggleVisibility;
-  final String? Function(String?)? validator;
+  // final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final void Function(String)? onFieldSubmitted;
   final TextInputAction textInputAction;
@@ -73,7 +73,7 @@ class FsPasswordField extends StatelessWidget {
     required this.label,
     required this.obscureText,
     required this.onToggleVisibility,
-    this.validator,
+    // this.validator,
     this.onChanged,
     this.onFieldSubmitted,
     this.textInputAction = TextInputAction.done,
@@ -88,13 +88,15 @@ class FsPasswordField extends StatelessWidget {
       obscureText: obscureText,
       keyboardType: TextInputType.visiblePassword,
       textInputAction: textInputAction,
-      validator: validator,
+      // validator: validator,
       onChanged: onChanged,
       onFieldSubmitted: onFieldSubmitted,
       // visibilty toggle button
       suffixIcon: IconButton(
         icon: Icon(
-          obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+          obscureText
+              ? Icons.visibility_outlined
+              : Icons.visibility_off_outlined,
           color: Theme.of(context).colorScheme.onSurfaceVariant,
         ),
         onPressed: onToggleVisibility,
@@ -174,8 +176,8 @@ class FsErrorBanner extends StatelessWidget {
             child: Text(
               message,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onErrorContainer,
-                  ),
+                color: Theme.of(context).colorScheme.onErrorContainer,
+              ),
             ),
           ),
         ],
@@ -192,11 +194,7 @@ class FsAuthHeader extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  const FsAuthHeader({
-    super.key,
-    required this.title,
-    required this.subtitle,
-  });
+  const FsAuthHeader({super.key, required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -221,9 +219,9 @@ class FsAuthHeader extends StatelessWidget {
         Text(
           // screen title
           title,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 6),
         Text(
@@ -231,8 +229,8 @@ class FsAuthHeader extends StatelessWidget {
           subtitle,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ),
       ],
     );

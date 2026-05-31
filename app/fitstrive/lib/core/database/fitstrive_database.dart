@@ -19,8 +19,46 @@ class AppDatabase {
       version: 1,
       onCreate: (db, version) async {
         await db.execute('''
-      CREATE TABLE foods (id TEXT PRIMARY KEY, name TEXT NOT NULL, calories REAL NOT NULL, date TEXT NOT NULL)
-      ''');
+CREATE TABLE user (
+  id TEXT PRIMARY KEY,
+  email TEXT NOT NULL,
+  firstName TEXT NOT NULL,
+  lastName TEXT
+)
+''');
+        await db.execute('''
+CREATE TABLE food_log (
+  id TEXT PRIMARY KEY AUTOINCREMENT,
+  foodname TEXT NOT NULL,
+  calories REAL NOT NULL,
+  weight REAL NOT NULL,
+  unitSymbol TEXT NOT NULL,
+  carbohydrates REAL NOT NULL,
+  protein REAL NOT NULL,
+  fats REAL NOT NULL,
+  date TEXT NOT NULL
+)
+''');
+        await db.execute('''
+CREATE TABLE food_item (
+  id TEXT PRIMARY KEY AUTOINCREMENT,
+  foodname TEXT NOT NULL,
+  calories REAL NOT NULL,
+  weight REAL NOT NULL,
+  unitSymbol TEXT NOT NULL,
+  carbohydrates REAL NOT NULL,
+  protein REAL NOT NULL,
+  fats REAL NOT NULL,
+)
+''');
+        await db.execute('''
+CREATE TABLE health (
+  id TEXT PRIMARY KEY AUTOINCREMENT,
+  height REAL NOT NULL,
+  weight REAL NOT NULL,
+  date TEXT NOT NULL
+)
+''');
       },
     );
   }

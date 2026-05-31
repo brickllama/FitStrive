@@ -1,27 +1,29 @@
-import './user_profile.dart';
 import '../value_objects/email.dart';
+import '../value_objects/name.dart';
+import '../value_objects/username.dart';
 import '../value_objects/user_id.dart';
+import '../value_objects/email.dart';
+import '../value_objects/name.dart';
 
-/// Represents a user.
 final class User {
-  final UserId id;
-  final Email? email;
-  final UserProfile profile;
+  /// Constructs a [User] object.
+  ///
+  /// [id] - The user's ID.
+  ///
+  /// [email] - The user's email.
+  ///
+  /// [username] - The user's username.
+  ///
+  /// [name] - The user's name.
+  User({
+    required this.id,
+    required this.email,
+    required this.username,
+    required this.name,
+  });
 
-  User._internal(UserId? id, this.email, this.profile) : id = id ?? UserId();
-
-  factory User.create({
-    final Email? email,
-    required final UserProfile profile,
-  }) {
-    return User._internal(UserId(), email, profile);
-  }
-
-  factory User.load({
-    required final UserId id,
-    final Email? email,
-    required final UserProfile profile,
-  }) {
-    return User._internal(id, email, profile);
-  }
+  final UserID id;
+  final Email email;
+  final Username username;
+  final Name name;
 }

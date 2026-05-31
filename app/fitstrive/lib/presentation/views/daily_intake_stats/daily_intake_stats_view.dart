@@ -1,0 +1,146 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../viewmodels/daily_intake_stats/daily_intake_stats_viewmodel.dart';
+import '../../widgets/auth/auth_widgets.dart';
+import '../../widgets/daily_intake_stats/daily_intake_stats_widgets.dart';
+
+// Entry point for the daily intake stats screen
+//
+// First screen after login or continue as guest (for now)
+// Shows daily calorie summary, macros, and the days meal list
+class DailyIntakeView extends StatelessWidget {
+  const DailyIntakeView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => DailyIntakeViewModel()..loadDailyIntake(),
+      child: const _DailyIntakeContent(),
+    );
+  }
+}
+
+// internal ui for the daily intake stats
+// watches DailyIntakeViewModel and rebuilds when state changes
+class _DailyIntakeContent extends StatelessWidget {
+  const _DailyIntakeContent();
+
+  @override
+  Widget build(BuildContext context) {
+    final vm = context.watch<DailyIntakeViewModel>();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('FitStrive'),
+        // no back button, daily intake stats is the root screen after login (for now)
+        automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Center(
+              child: Text(
+                _formatDate(vm.selectedDate),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      body: _buildBody(context, vm),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO: add navigation to 'add a meal' button
+          // Navigator.pushNamed(context, '/nutrition/add');
+        },
+        tooltip: 'Add meal',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, DailyIntakeViewModel vm) {
+    if (vm.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (vm.hasError) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FsErrorBanner(message: vm.errorMessage!),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: vm.loadDailyIntake,
+                child: const Text('Try again'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: vm.loadDailyIntake,
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          // calorie summary card
+          CalorieSummaryCard(summary: vm.summary),
+          const SizedBox(height: 8),
+
+          // macro breakdown
+          MacroRow(summary: vm.summary),
+          const SizedBox(height: 24),
+
+          // meals section header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Today's meals",
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+              TextButton(
+                onPressed: () {
+                  // TODO: add navigation to 'see all' button to a list of all todays entries
+                  // Navigator.pushNamed(context, '/nutrition');
+                },
+                child: const Text('See all'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+
+          // meals list or empty state
+          if (!vm.hasMeals)
+            const EmptyMealsPlaceholder()
+          else
+            ...vm.meals.map(
+              (meal) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: MealListItem(
+                  meal: meal,
+                  onDelete: () => vm.deleteMeal(meal.id),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  String _formatDate(DateTime date) {
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return '${months[date.month - 1]} ${date.day}, ${date.year}';
+  }
+}
