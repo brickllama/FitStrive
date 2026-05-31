@@ -2,21 +2,25 @@ import 'package:fitstrive/domain/abstractions/result.dart';
 import 'package:fitstrive/domain/entities/user.dart';
 import 'package:fitstrive/domain/repository/user_repository.dart';
 import 'package:fitstrive/domain/value_objects/email.dart';
+import 'package:fitstrive/domain/value_objects/name.dart';
 import 'package:fitstrive/domain/value_objects/password.dart';
+import 'package:fitstrive/domain/value_objects/username.dart';
 
 class RegisterUseCase {
   final UserRepository userRepository;
   RegisterUseCase(this.userRepository);
 
   Future<Result<User>> execute({
-    required final String email,
-    required final String password,
+    required final Email email,
+    required final Username username,
+    required final Name name,
+    required final Password password,
   }) async {
-    final emailValue = Email(value: email);
-    final passwordValue = Password(value: password);
     return userRepository.register(
-      email: Email(value: email),
-      password: Password(value: password),
+      email: email,
+      password: password,
+      name: name,
+      username: username,
     );
   }
 }

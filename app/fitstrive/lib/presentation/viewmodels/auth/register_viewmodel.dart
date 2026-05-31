@@ -5,7 +5,6 @@ import 'package:fitstrive/domain/abstractions/result.dart';
 import 'package:flutter/material.dart';
 import '../base_viewmodel.dart';
 import '../../models/auth/auth_form_models.dart';
-import 'package:fitstrive/application/use_cases/user_registration_use_case.dart';
 import 'package:fitstrive/domain/abstractions/result.dart';
 import 'package:fitstrive/domain/value_objects/email.dart';
 import 'package:fitstrive/domain/value_objects/username.dart';
@@ -15,11 +14,10 @@ import 'package:fitstrive/domain/value_objects/password.dart';
 // ViewModel responsible for hanlding the login screen state
 
 class RegisterViewModel extends BaseViewModel {
-  final UserRegistrationUseCase _registrationUseCase;
+  final RegisterUseCase _registrationUseCase;
 
-  RegisterViewModel({
-    required final UserRegistrationUseCase registrationUseCase,
-  }) : _registrationUseCase = registrationUseCase;
+  RegisterViewModel({required final RegisterUseCase registrationUseCase})
+    : _registrationUseCase = registrationUseCase;
 
   // form controllers
   final TextEditingController usernameController = TextEditingController();
@@ -82,10 +80,10 @@ class RegisterViewModel extends BaseViewModel {
       var name = Name(firstName: _form.firstName, lastName: _form.lastName);
       var password = Password(value: _form.password);
       final result = await _registrationUseCase.execute(
-        email,
-        username,
-        name,
-        password,
+        email: email,
+        username: username,
+        name: name,
+        password: password,
       );
       // TODO: proceed?
     });

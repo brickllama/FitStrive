@@ -10,14 +10,9 @@ class LoginUseCase {
   LoginUseCase(this.userRepository);
 
   Future<Result<User>> execute({
-    required final String email,
-    required final String password,
+    required final Email email,
+    required final Password password,
   }) async {
-    final emailValue = Email(value: email);
-    final passwordValue = Password(value: password);
-    return userRepository.login(
-      email: Email(value: email),
-      password: Password(value: password),
-    );
+    return userRepository.login(email: email, password: password);
   }
 }

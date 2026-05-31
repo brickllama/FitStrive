@@ -5,8 +5,10 @@ import 'package:fitstrive/domain/abstractions/result.dart';
 import 'package:fitstrive/domain/entities/user.dart';
 import 'package:fitstrive/domain/repository/user_repository.dart';
 import 'package:fitstrive/domain/value_objects/email.dart';
+import 'package:fitstrive/domain/value_objects/name.dart';
 import 'package:fitstrive/domain/value_objects/password.dart';
 import 'package:fitstrive/domain/value_objects/user_id.dart';
+import 'package:fitstrive/domain/value_objects/username.dart';
 
 class UserRepositoryImpl extends UserRepository {
   UserLocalSource localSource;
@@ -34,17 +36,17 @@ class UserRepositoryImpl extends UserRepository {
   Future<Result<User>> login({
     required Email email,
     required Password password,
-  }) {
-    // TODO: implement login
-    throw UnimplementedError();
+  }) async {
+    return await remoteSource.login(email, password);
   }
 
   @override
   Future<Result<User>> register({
-    required Email email,
-    required Password password,
-  }) {
-    // TODO: implement register
-    throw UnimplementedError();
+    required final Email email,
+    required final Username username,
+    required final Name name,
+    required final Password password,
+  }) async {
+    return await remoteSource.register(email, username, name, password);
   }
 }
