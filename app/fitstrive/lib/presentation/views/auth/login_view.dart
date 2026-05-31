@@ -132,7 +132,7 @@ class _LoginContent extends StatelessWidget {
     final success = await vm.login();
     if (success && context.mounted) {
       // send user to dashboard
-      Navigator.pushReplacementNamed(context, '/dashboard');
+      Navigator.pushReplacementNamed(context, '/setup-profile');
     }
   }
 }

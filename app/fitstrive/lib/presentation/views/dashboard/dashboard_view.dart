@@ -44,6 +44,9 @@ class DashboardView extends StatelessWidget {
         onTap: () {
           if (cardName == 'Log Food') {
             Navigator.pushNamed(context, '/log-food');
+          } else if (cardName == 'Profile') {
+            // added this connection for the new profile branch
+            Navigator.pushNamed(context, '/profile');
           } else {
             // temp snackbar until we build the other screens
             ScaffoldMessenger.of(context).showSnackBar(

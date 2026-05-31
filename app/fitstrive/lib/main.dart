@@ -4,6 +4,8 @@ import 'core/database/fitstrive_database.dart';
 import 'presentation/presentation.dart';
 import 'presentation/views/dashboard/dashboard_view.dart';
 import 'presentation/views/food_entry_view.dart';
+import 'presentation/views/profile_setup_view.dart';
+import 'presentation/views/profile_view.dart';
 
 
 void main() {
@@ -33,6 +35,8 @@ class FitStriveApp extends StatelessWidget {
         '/forgot-password': (_) => const ForgotPasswordView(),
         '/dashboard': (_) => const DashboardView(),
         '/log-food': (_) => const FoodEntryView(),
+        '/setup-profile': (_) => const ProfileSetupView(),
+        '/profile': (_) => const ProfileView(),
 
       },
     );
