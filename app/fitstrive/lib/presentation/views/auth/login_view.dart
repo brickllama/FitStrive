@@ -130,7 +130,8 @@ class _LoginContent extends StatelessWidget {
   Future<void> _submit(BuildContext context, LoginViewModel vm) async {
     final success = await vm.login();
     if (success && context.mounted) {
-      // TODO: send user to daily intake stats
+      // send user to dashboard
+      Navigator.pushReplacementNamed(context, '/dashboard');
     }
   }
 }

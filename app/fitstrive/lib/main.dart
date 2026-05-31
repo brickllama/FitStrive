@@ -12,6 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/database/fitstrive_database.dart';
 import 'presentation/presentation.dart';
+import 'presentation/views/dashboard/dashboard_view.dart';
+import 'presentation/views/food_entry_view.dart';
+
 
 void main() async {
   await dotenv.load(fileName: 'config/.env');
@@ -87,6 +90,16 @@ class FitStriveApp extends StatelessWidget {
           '/daily-intake-stats': (_) => const DailyIntakeView(),
         },
       ),
+      home: const LaunchView(),
+      routes: {
+        '/launch': (_) => const LaunchView(),
+        '/login': (_) => const LoginView(),
+        '/register': (_) => const RegisterView(),
+        '/forgot-password': (_) => const ForgotPasswordView(),
+        '/dashboard': (_) => const DashboardView(),
+        '/log-food': (_) => const FoodEntryView(),
+
+      },
     );
   }
 }
