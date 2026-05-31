@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fitstrive/domain/abstractions/result.dart';
 import 'package:fitstrive/domain/entities/user.dart';
 import 'package:fitstrive/domain/repository/user_repository.dart';
@@ -16,7 +18,8 @@ class RegisterUseCase {
     required final Name name,
     required final Password password,
   }) async {
-    return userRepository.register(
+    log("Attempting to register account");
+    return await userRepository.register(
       email: email,
       password: password,
       name: name,

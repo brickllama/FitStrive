@@ -57,7 +57,7 @@ class LoginViewModel extends BaseViewModel {
   // attempts to authenticate user
   Future<bool> login() async {
     // stop if form is invalid
-    if (!formKey.currentState!.validate()) return false;
+    //if (!formKey.currentState!.validate()) return false;
 
     // inherited from BaseViewModel
     return runAsync(() async {

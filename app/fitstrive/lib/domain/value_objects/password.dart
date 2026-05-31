@@ -27,14 +27,14 @@ final class Password {
         'Password must contain at least one lowercase character',
       );
     }
-    if (!value.contains(_digit)) {
+    /*if (!value.contains(_digit)) {
       throw ValidationException('Password must contain at least one digit');
     }
     if (!value.contains(_special)) {
       throw ValidationException(
         'Password must contain at least one special character',
       );
-    }
+    }*/
     return Password._internal(value);
   }
 
