@@ -53,6 +53,14 @@ export class UserMiddleware {
         next();
     }
 
+    // static validateUsername(req: Request, res: Response, next: NextFunction) {
+    //     try {
+    //         const username = 
+    //     } catch {
+    //         return res.status(400).json({ error: 'Invalid username' });
+    //     }
+    // }
+
     /**
      * Validates Uuid.
      * 

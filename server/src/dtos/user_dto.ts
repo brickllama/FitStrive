@@ -4,5 +4,7 @@
 export interface UserDTO {
     uuid: string,
     email: string,
-    name: string
+    username: string,
+    firstName: string,
+    lastName: string
 }
