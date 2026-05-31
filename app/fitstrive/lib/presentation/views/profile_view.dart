@@ -27,7 +27,7 @@ class ProfileView extends StatelessWidget {
             SizedBox(height: 32),
 
             _buildInfoCard(context, 'Age', TempProfileData.age, Icons.cake),
-            SizedBox(height: 15), // typo 15
+            SizedBox(height: 15),
             _buildInfoCard(context, 'Gender', TempProfileData.gender, Icons.people),
             SizedBox(height: 16),
             _buildInfoCard(context, 'Country', TempProfileData.country, Icons.public),

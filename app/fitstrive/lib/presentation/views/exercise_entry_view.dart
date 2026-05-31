@@ -72,7 +72,7 @@ class _ExerciseEntryViewState extends State<ExerciseEntryView> {
           children: [
             DropdownButtonFormField<String>(
               value: _selectedExercise,
-              decoration: InputDecoration( // dropping const
+              decoration: InputDecoration(
                 labelText: 'Exercise Type',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.directions_run),

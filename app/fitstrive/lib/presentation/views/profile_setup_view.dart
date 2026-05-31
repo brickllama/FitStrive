@@ -22,12 +22,11 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
         _countryController.text.isEmpty || 
         _selectedGender == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill out all fields to continue!')), // dropped const
+        SnackBar(content: Text('Please fill out all fields to continue!')),
       );
       return;
     }
 
-    // save to our fake ram database
     TempProfileData.name = _nameController.text;
     TempProfileData.age = _ageController.text;
     TempProfileData.gender = _selectedGender!;
@@ -37,7 +36,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        // clunky string addition
+
         SnackBar(content: Text('Welcome, ' + TempProfileData.name + '! Profile saved.')),
       );
       
