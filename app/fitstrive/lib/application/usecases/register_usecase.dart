@@ -8,7 +8,7 @@ import 'package:fitstrive/domain/value_objects/name.dart';
 import 'package:fitstrive/domain/value_objects/password.dart';
 import 'package:fitstrive/domain/value_objects/username.dart';
 
-class RegisterUseCase {
+final class RegisterUseCase {
   final UserRepository userRepository;
   RegisterUseCase(this.userRepository);
 
