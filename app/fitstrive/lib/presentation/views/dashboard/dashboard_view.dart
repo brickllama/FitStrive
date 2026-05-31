@@ -27,6 +27,7 @@ class DashboardView extends StatelessWidget {
           mainAxisSpacing: 16,
           children: [
             _buildMenuCard(context, 'Log Food', Icons.restaurant),
+            _buildMenuCard(context, 'Log Exercise', Icons.fitness_center),
             _buildMenuCard(context, 'My Goals', Icons.flag),
             _buildMenuCard(context, 'Statistics', Icons.bar_chart),
             _buildMenuCard(context, 'Profile', Icons.person),
@@ -44,6 +45,8 @@ class DashboardView extends StatelessWidget {
         onTap: () {
           if (cardName == 'Log Food') {
             Navigator.pushNamed(context, '/log-food');
+          } else if (cardName == 'Log Exercise') {
+            Navigator.pushNamed(context, '/log-exercise');
           } else if (cardName == 'Profile') {
             // added this connection for the new profile branch
             Navigator.pushNamed(context, '/profile');

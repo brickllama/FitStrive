@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class FoodEntryView extends StatefulWidget {
   const FoodEntryView({super.key});
 
@@ -53,6 +54,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
     }
     
     FocusScope.of(context).unfocus();
+
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
