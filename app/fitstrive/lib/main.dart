@@ -7,6 +7,7 @@ import 'presentation/views/food_entry_view.dart';
 import 'presentation/views/profile_setup_view.dart';
 import 'presentation/views/profile_view.dart';
 import 'presentation/views/exercise_entry_view.dart';
+import 'presentation/views/goals_setup_view.dart';
 
 
 
@@ -38,6 +39,7 @@ class FitStriveApp extends StatelessWidget {
         '/dashboard': (_) => const DashboardView(),
         '/log-food': (_) => const FoodEntryView(),
         '/log-exercise': (_) => const ExerciseEntryView(),
+        '/my-goals': (_) => const GoalsSetupView(),
         '/setup-profile': (_) => const ProfileSetupView(),
         '/profile': (_) => const ProfileView(),
 

@@ -8,12 +8,11 @@ class DashboardView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('FitStrive Dashboard'), 
-        automaticallyImplyLeading: false, // dont let them go back to login
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: Icon(Icons.logout), // forgot const here but it's fine
+            icon: Icon(Icons.logout),
             onPressed: () {
-              // print("user logging out...");
               Navigator.pushReplacementNamed(context, '/login');
             },
           )
@@ -23,7 +22,7 @@ class DashboardView extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: GridView.count(
           crossAxisCount: 2,
-          crossAxisSpacing: 15, // slightly off from 16, classic human typo
+          crossAxisSpacing: 15,
           mainAxisSpacing: 16,
           children: [
             _buildMenuCard(context, 'Log Food', Icons.restaurant),
@@ -47,13 +46,15 @@ class DashboardView extends StatelessWidget {
             Navigator.pushNamed(context, '/log-food');
           } else if (cardName == 'Log Exercise') {
             Navigator.pushNamed(context, '/log-exercise');
+          } else if (cardName == 'My Goals') {
+            Navigator.pushNamed(context, '/my-goals');
           } else if (cardName == 'Profile') {
-            // added this connection for the new profile branch
+
             Navigator.pushNamed(context, '/profile');
           } else {
-            // temp snackbar until we build the other screens
+
             ScaffoldMessenger.of(context).showSnackBar(
-              // Using clunky string addition instead of perfect interpolation
+
               SnackBar(content: Text(cardName + ' screen coming soon!')), 
             );
           }

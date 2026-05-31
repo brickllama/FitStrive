@@ -8,7 +8,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Profile'), // missing const
+        title: Text('My Profile'),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(24.0),

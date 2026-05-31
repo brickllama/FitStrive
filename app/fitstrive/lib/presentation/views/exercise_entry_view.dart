@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class ExerciseEntryView extends StatefulWidget {
   const ExerciseEntryView({super.key});
 
@@ -41,16 +42,17 @@ class _ExerciseEntryViewState extends State<ExerciseEntryView> {
   void _saveExercise() async {
     if (_calculatedBurn == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enter how many minutes!')), // dropped const
+        SnackBar(content: Text('Please enter how many minutes!')),
       );
       return;
     }
     
     FocusScope.of(context).unfocus();
 
+
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        // clunky string addition again!
+
         SnackBar(content: Text('Burned ' + _calculatedBurn.toString() + ' kcal from ' + _selectedExercise + '!')),
       );
       Navigator.pop(context);
@@ -61,10 +63,10 @@ class _ExerciseEntryViewState extends State<ExerciseEntryView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Log Exercise'), // forgot const here
+        title: Text('Log Exercise'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(25.0), // human typo 25 instead of 24
+        padding: EdgeInsets.all(25.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -84,11 +86,11 @@ class _ExerciseEntryViewState extends State<ExerciseEntryView> {
               onChanged: (String? newVal) {
                 setState(() {
                   _selectedExercise = newVal!;
-                  _calcBurn(); // recalc if they change the dropdown
+                  _calcBurn();
                 });
               },
             ),
-            SizedBox(height: 15), // changed 16 to 15
+            SizedBox(height: 15),
             
             TextField(
               controller: _durationController,
@@ -106,7 +108,6 @@ class _ExerciseEntryViewState extends State<ExerciseEntryView> {
             Container(
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                // Made this box orange so it looks different from the green food screen
                 color: Colors.orange.shade100, 
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -118,7 +119,7 @@ class _ExerciseEntryViewState extends State<ExerciseEntryView> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    _calculatedBurn.toString() + ' kcal', // clunky string
+                    _calculatedBurn.toString() + ' kcal',
                     style: TextStyle(
                       fontSize: 36, 
                       fontWeight: FontWeight.bold,

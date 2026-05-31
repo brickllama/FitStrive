@@ -30,7 +30,6 @@ class _FoodEntryViewState extends State<FoodEntryView> {
 
   void _calculateCalories() {
     final weightText = _weightController.text;
-    // print("typing weight: " + weightText);
     
     if (weightText.isEmpty || _selectedFoodCaloriesPer100g == 0) {
       setState(() {
@@ -48,7 +47,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
   void _saveFood() async {
     if (_finalSelectedFood.isEmpty || _totalCalculatedCalories == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please select a food and enter its weight!')), // dropped const
+        SnackBar(content: Text('Please select a food and enter its weight!')),
       );
       return;
     }
@@ -58,7 +57,6 @@ class _FoodEntryViewState extends State<FoodEntryView> {
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        // used clunky string addition instead of nice interpolation
         SnackBar(content: Text('Logged ' + _totalCalculatedCalories.toString() + ' kcal of ' + _finalSelectedFood + '!')),
       );
       Navigator.pop(context); 
@@ -78,7 +76,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
           children: [
             DropdownButtonFormField<String>(
               value: _selectedMeal,
-              decoration: InputDecoration( // dropping const
+              decoration: InputDecoration(
                 labelText: 'Meal Type',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.access_time),

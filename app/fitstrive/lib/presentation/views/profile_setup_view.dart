@@ -49,11 +49,11 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Complete Your Profile'), // forgot const
+        title: Text('Complete Your Profile'),
         automaticallyImplyLeading: false, 
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(25.0), // human typo 25 instead of 24
+        padding: EdgeInsets.all(25.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
