@@ -14,17 +14,19 @@ class LaunchViewModel extends BaseViewModel {
   // called when the user selects 'contunie as guest'
   // no async needed, just sets local auth mode.
   // view navigates to dashboard on call.
-  void continueAsGuest() {
+  bool continueAsGuest() {
     _authMode = AuthMode.guest;
     notifyListeners();
+    return true;
   }
 
   // called when the user selects 'sign in/register'
   // no async needed, just sets local auth mode
   // view navigates to login on call
-  void continueAsAccount() {
+  bool continueAsAccount() {
     _authMode = AuthMode.account;
     notifyListeners();
+    return true;
   }
 
   // checks if a session already exists on app launch
