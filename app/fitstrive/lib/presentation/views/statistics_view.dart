@@ -32,7 +32,6 @@ class _StatisticsViewState extends State<StatisticsView> {
               TempProfileData.goalType = '';
               TempProfileData.deadlineDate = '';
 
-              // 2. CLOSE DIALOG AND GO BACK TO DASHBOARD
               Navigator.pop(context); 
               Navigator.pop(context); 
               
@@ -61,12 +60,12 @@ class _StatisticsViewState extends State<StatisticsView> {
       double currentWeight = weightData[sortedDates.last]!;
       
       if (TempProfileData.goalType == 'Lose Weight') {
-        // Did they lose enough?
+
         if (currentWeight <= startWeight - TempProfileData.totalTargetAmount) {
           isGoalAchieved = true;
         }
       } else if (TempProfileData.goalType == 'Gain Weight') {
-        // Did they gain enough?
+
         if (currentWeight >= startWeight + TempProfileData.totalTargetAmount) {
           isGoalAchieved = true;
         }
