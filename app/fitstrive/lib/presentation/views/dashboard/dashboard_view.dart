@@ -7,7 +7,7 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FitStrive Dashboard'), 
+        title: Text('FitStrive Dashboard'),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -15,7 +15,7 @@ class DashboardView extends StatelessWidget {
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/login');
             },
-          )
+          ),
         ],
       ),
       body: Padding(
@@ -36,9 +36,13 @@ class DashboardView extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuCard(BuildContext context, String cardName, IconData myIcon) {
+  Widget _buildMenuCard(
+    BuildContext context,
+    String cardName,
+    IconData myIcon,
+  ) {
     return Card(
-      elevation: 4.0, 
+      elevation: 4.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: InkWell(
         onTap: () {
@@ -49,13 +53,10 @@ class DashboardView extends StatelessWidget {
           } else if (cardName == 'My Goals') {
             Navigator.pushNamed(context, '/my-goals');
           } else if (cardName == 'Profile') {
-
             Navigator.pushNamed(context, '/profile');
           } else {
-
             ScaffoldMessenger.of(context).showSnackBar(
-
-              SnackBar(content: Text(cardName + ' screen coming soon!')), 
+              SnackBar(content: Text(cardName + ' screen coming soon!')),
             );
           }
         },
@@ -63,9 +64,16 @@ class DashboardView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(myIcon, size: 48, color: Theme.of(context).colorScheme.primary),
-            SizedBox(height: 16), 
-            Text(cardName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Icon(
+              myIcon,
+              size: 48,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            SizedBox(height: 16),
+            Text(
+              cardName,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),

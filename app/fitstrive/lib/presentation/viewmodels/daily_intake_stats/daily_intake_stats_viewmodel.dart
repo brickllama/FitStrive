@@ -1,9 +1,13 @@
+import 'package:fitstrive/application/usecases/get_foods_usecase.dart';
+
 import '../base_viewmodel.dart';
 import '../../models/daily_intake_stats/daily_intake_stats_models.dart';
 
 // ViewModel responsible for the daily intake flow
 
 class DailyIntakeViewModel extends BaseViewModel {
+  GetFoodsUsecase getFoodsUsecase;
+  DailyIntakeViewModel({required this.getFoodsUsecase});
   DailyNutritionSummary _summary = const DailyNutritionSummary();
   List<MealEntryItem> _meals = [];
   DateTime _selectedDate = DateTime.now();
@@ -30,8 +34,18 @@ class DailyIntakeViewModel extends BaseViewModel {
         fatG: 45,
       );
       _meals = const [
-        MealEntryItem(id: '1', foodName: 'Yoghurt and Granola', calories: 350, amountG: 200),
-        MealEntryItem(id: '2', foodName: 'Chicken and Rice', calories: 520, amountG: 300),
+        MealEntryItem(
+          id: '1',
+          foodName: 'Yoghurt and Granola',
+          calories: 350,
+          amountG: 200,
+        ),
+        MealEntryItem(
+          id: '2',
+          foodName: 'Chicken and Rice',
+          calories: 520,
+          amountG: 300,
+        ),
       ];
     });
   }

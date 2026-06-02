@@ -14,7 +14,7 @@ class DailyIntakeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => DailyIntakeViewModel()..loadDailyIntake(),
+      create: (_) => DailyIntakeViewModel().loadDailyIntake(),
       child: const _DailyIntakeContent(),
     );
   }
@@ -41,8 +41,8 @@ class _DailyIntakeContent extends StatelessWidget {
               child: Text(
                 _formatDate(vm.selectedDate),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
           ),
@@ -103,9 +103,9 @@ class _DailyIntakeContent extends StatelessWidget {
             children: [
               Text(
                 "Today's meals",
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               TextButton(
                 onPressed: () {
@@ -138,8 +138,18 @@ class _DailyIntakeContent extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }
