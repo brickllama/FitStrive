@@ -111,7 +111,7 @@ class _WeightEntryViewState extends State<WeightEntryView> {
                   SizedBox(height: 24),
                   
                   Text(
-                    'What does the scale say?',
+                    'What is your weight today?',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
