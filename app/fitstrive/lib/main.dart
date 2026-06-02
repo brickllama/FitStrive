@@ -6,8 +6,9 @@ import 'presentation/views/dashboard/dashboard_view.dart';
 import 'presentation/views/food_entry_view.dart';
 import 'presentation/views/profile_setup_view.dart';
 import 'presentation/views/profile_view.dart';
-import 'presentation/views/exercise_entry_view.dart';
+import 'presentation/views/weight_entry_view.dart';
 import 'presentation/views/goals_setup_view.dart';
+import 'presentation/views/statistics_view.dart';
 
 
 
@@ -38,11 +39,12 @@ class FitStriveApp extends StatelessWidget {
         '/forgot-password': (_) => const ForgotPasswordView(),
         '/dashboard': (_) => const DashboardView(),
         '/log-food': (_) => const FoodEntryView(),
-        '/log-exercise': (_) => const ExerciseEntryView(),
+        '/log-weight': (_) => const WeightEntryView(),
         '/my-goals': (_) => const GoalsSetupView(),
+        '/statistics': (_) => const StatisticsView(),
         '/setup-profile': (_) => const ProfileSetupView(),
         '/profile': (_) => const ProfileView(),
-
+        
       },
     );
   }
