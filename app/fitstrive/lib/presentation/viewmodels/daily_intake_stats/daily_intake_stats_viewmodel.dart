@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:fitstrive/application/usecases/get_foods_usecase.dart';
+import 'package:fitstrive/application/usecases/remove_food_usecase.dart';
 import 'package:fitstrive/domain/entities/food_log.dart';
 
 import '../base_viewmodel.dart';
@@ -8,8 +9,12 @@ import '../../models/daily_intake_stats/daily_intake_stats_models.dart';
 
 class DailyIntakeViewModel extends BaseViewModel {
   final GetFoodsUsecase getFoodsUsecase;
+  final RemoveFoodUsecase removeFoodUsecase;
 
-  DailyIntakeViewModel({required this.getFoodsUsecase});
+  DailyIntakeViewModel({
+    required this.getFoodsUsecase,
+    required this.removeFoodUsecase,
+  });
 
   DailyNutritionSummary _summary = const DailyNutritionSummary();
   List<MealEntryItem> _meals = [];
@@ -68,6 +73,7 @@ class DailyIntakeViewModel extends BaseViewModel {
   }
 
   MealEntryItem _toMealEntryItem(FoodLog food) {
+    log(food.id);
     return MealEntryItem(
       id: food.id,
       foodName: food.foodname.foodname,
@@ -87,7 +93,17 @@ class DailyIntakeViewModel extends BaseViewModel {
   Future<void> deleteMeal(String id) async {
     await runAsync(() async {
       // TODO: call delete food log usecase here later
+
       _meals = _meals.where((m) => m.id != id).toList();
+      log("Remove food id: ${id}");
+
+      final deleted = await removeFoodUsecase.execute(id);
+
+      if (!deleted) {
+        throw Exception("Could not delete food entry");
+      }
+
+      await loadDailyIntake(date: _selectedDate);
 
       final totalCalories = _meals.fold<int>(
         0,

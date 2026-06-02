@@ -61,11 +61,11 @@ class _DailyIntakeContent extends StatelessWidget {
       ),
       body: _buildBody(context, vm),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: add navigation to 'add a meal' button
-          Navigator.pushNamed(context, '/log-food');
-          if (context.mounted) {
-            context.read<DailyIntakeViewModel>().loadDailyIntake();
+        onPressed: () async {
+          final result = await Navigator.pushNamed(context, '/log-food');
+
+          if (result == true && context.mounted) {
+            await context.read<DailyIntakeViewModel>().loadDailyIntake();
           }
         },
         tooltip: 'Add meal',

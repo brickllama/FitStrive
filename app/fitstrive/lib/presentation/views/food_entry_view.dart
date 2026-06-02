@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:fitstrive/application/usecases/get_food_item_usecase.dart';
 import 'package:fitstrive/application/usecases/log_food_usecase.dart';
+import 'package:fitstrive/application/usecases/remove_food_usecase.dart';
 import 'package:fitstrive/domain/entities/food_item.dart';
 import 'package:flutter/material.dart';
 

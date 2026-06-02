@@ -5,7 +5,7 @@ import 'package:fitstrive/domain/value_objects/macronutrients.dart';
 import 'package:fitstrive/domain/value_objects/weight.dart';
 
 class FoodLogModel {
-  final String id;
+  String? id;
   final String foodname;
   final double calories;
   final double weight;
@@ -64,6 +64,7 @@ class FoodLogModel {
     );
     Weight weight = Weight(value: this.weight, unit: WeightUnit.kilograms);
     return FoodLog(
+      id: id,
       foodname: foodName,
       macronutrients: macronutrients,
       calories: calories,

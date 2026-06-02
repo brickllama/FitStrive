@@ -5,15 +5,20 @@ import 'package:uuid/uuid.dart';
 
 final class FoodLog {
   factory FoodLog({
+    String? id,
     required final FoodName foodname,
     required final Macronutrients macronutrients,
     required final Weight weight,
     required final double calories,
     required final DateTime date,
   }) {
-    final Uuid id = Uuid();
+    if (id == null) {
+      final Uuid uuid = Uuid();
+      id = uuid.v4();
+    }
+
     return FoodLog._internal(
-      id.v4(),
+      id,
       foodname,
       macronutrients,
       weight,

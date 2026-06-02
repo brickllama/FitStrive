@@ -5,6 +5,7 @@ import 'package:fitstrive/application/usecases/log_food_usecase.dart';
 import 'package:fitstrive/application/usecases/login_usecase.dart';
 import 'package:fitstrive/application/usecases/register_usecase.dart';
 import 'package:fitstrive/application/usecases/remove_food_item_usecase.dart';
+import 'package:fitstrive/application/usecases/remove_food_usecase.dart';
 import 'package:fitstrive/data/datasources/food_item_local_source.dart';
 import 'package:fitstrive/data/datasources/food_log_local_source.dart';
 
@@ -78,6 +79,9 @@ void main() async {
   final GetFoodItemUsecase getFoodItemUsecase = GetFoodItemUsecase(
     foodItemRepository,
   );
+  final RemoveFoodUsecase removeFoodUsecase = RemoveFoodUsecase(
+    foodLogRepository,
+  );
 
   runApp(
     FitStriveApp(
@@ -88,6 +92,7 @@ void main() async {
       addFoodItemUsecase: addFoodItemUsecase,
       removeFoodItemUsecase: removeFoodItemUsecase,
       getFoodItemUsecase: getFoodItemUsecase,
+      removeFoodUsecase: removeFoodUsecase,
     ),
   );
 }
@@ -102,6 +107,7 @@ class FitStriveApp extends StatelessWidget {
     required this.addFoodItemUsecase,
     required this.removeFoodItemUsecase,
     required this.getFoodItemUsecase,
+    required this.removeFoodUsecase,
   });
 
   final LoginUseCase loginUseCase;
@@ -111,6 +117,7 @@ class FitStriveApp extends StatelessWidget {
   final AddFoodItemUsecase addFoodItemUsecase;
   final RemoveFoodItemUsecase removeFoodItemUsecase;
   final GetFoodItemUsecase getFoodItemUsecase;
+  final RemoveFoodUsecase removeFoodUsecase;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +131,10 @@ class FitStriveApp extends StatelessWidget {
               RegisterViewModel(registrationUseCase: registerUseCase),
         ),
         ChangeNotifierProvider(
-          create: (_) => DailyIntakeViewModel(getFoodsUsecase: getfoodUsecase),
+          create: (_) => DailyIntakeViewModel(
+            getFoodsUsecase: getfoodUsecase,
+            removeFoodUsecase: removeFoodUsecase,
+          ),
         ),
       ],
       child: MaterialApp(

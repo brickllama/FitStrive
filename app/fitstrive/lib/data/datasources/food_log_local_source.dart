@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fitstrive/core/database/fitstrive_database.dart';
 import 'package:fitstrive/data/model/food_log_model.dart';
 
@@ -32,15 +34,36 @@ class FoodLogLocalSourceImpl extends FoodLogLocalSource {
   }
 
   @override
-  Future<bool> removeFoodEntry(String entry) async {
-    var res = await database.delete(
+  Future<bool> removeFoodEntry(String entryId) async {
+    final id = entryId.trim();
+
+    log("Removal of food log id: $id");
+
+    final before = await database.query(
       "food_log",
       where: "id = ?",
-      whereArgs: [entry],
+      whereArgs: [id],
     );
-    if (res == 0) {
-      return false;
-    }
-    return true;
+
+    log("Rows matching before delete: ${before.length}");
+    log("Matching row before delete: $before");
+
+    final deletedRows = await database.delete(
+      "food_log",
+      where: "id = ?",
+      whereArgs: [id],
+    );
+
+    log("Deleted rows: $deletedRows");
+
+    final after = await database.query(
+      "food_log",
+      where: "id = ?",
+      whereArgs: [id],
+    );
+
+    log("Rows matching after delete: ${after.length}");
+
+    return deletedRows > 0;
   }
 }
