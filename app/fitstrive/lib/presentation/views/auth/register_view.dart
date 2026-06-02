@@ -13,10 +13,7 @@ class RegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => RegisterViewModel(),
-      child: const _RegisterContent(),
-    );
+    return _RegisterContent();
   }
 }
 
@@ -61,6 +58,30 @@ class _RegisterContent extends StatelessWidget {
                       const SizedBox(height: 16),
                     ],
 
+                    // first name field
+                    FsTextField(
+                      controller: vm.firstNameController,
+                      label: 'First Name',
+                      hint: 'Sven',
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
+                      // validator: vm.validateFirstName,
+                      onChanged: vm.onFirstNameChanged,
+                    ),
+                    const SizedBox(height: 16),
+
+                    // last name field
+                    FsTextField(
+                      controller: vm.lastNameController,
+                      label: 'Last Name',
+                      hint: 'Svensson',
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
+                      // validator: vm.validateLastName,
+                      onChanged: vm.onLastNameChanged,
+                    ),
+                    const SizedBox(height: 16),
+
                     // username field
                     FsTextField(
                       controller: vm.usernameController,
@@ -68,7 +89,7 @@ class _RegisterContent extends StatelessWidget {
                       hint: 'example: jogger03',
                       textInputAction: TextInputAction.next,
                       autofocus: true,
-                      validator: vm.validateUsername,
+                      // validator: vm.validateUsername,
                       onChanged: vm.onUsernameChanged,
                     ),
                     const SizedBox(height: 16),
@@ -80,7 +101,7 @@ class _RegisterContent extends StatelessWidget {
                       hint: 'you@example.com',
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
-                      validator: vm.validateEmail,
+                      // validator: vm.validateEmail,
                       onChanged: vm.onEmailChanged,
                     ),
                     const SizedBox(height: 16),
@@ -91,7 +112,7 @@ class _RegisterContent extends StatelessWidget {
                       label: 'Password',
                       obscureText: vm.obscurePassword,
                       onToggleVisibility: vm.togglePasswordVisibility,
-                      validator: vm.validatePassword,
+                      // validator: vm.validatePassword,
                       onChanged: vm.onPasswordChanged,
                       textInputAction: TextInputAction.next,
                     ),
@@ -103,7 +124,7 @@ class _RegisterContent extends StatelessWidget {
                       label: 'Confirm password',
                       obscureText: vm.obscureConfirm,
                       onToggleVisibility: vm.toggleConfirmVisibility,
-                      validator: vm.validateConfirmPassword,
+                      // validator: vm.validatePassword,
                       onChanged: vm.onConfirmPasswordChanged,
                       // submit
                       onFieldSubmitted: (_) => _submit(context, vm),
@@ -148,7 +169,8 @@ class _RegisterContent extends StatelessWidget {
     final success = await vm.register();
     // only navigate if registration succeeded and widget is still mounted
     if (success && context.mounted) {
-      // TODO: send user to dashboard
+      // TODO: send user to daily intake stats
+      Navigator.pushNamed(context, "/login");
     }
   }
 }

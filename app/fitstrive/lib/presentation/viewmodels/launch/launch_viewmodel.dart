@@ -2,7 +2,7 @@ import '../base_viewmodel.dart';
 import '../../models/launch/launch_model.dart';
 
 // ViewModel responsible for application launch flow
-// TODO: import from application layer
+// TODO: connect to application layer
 
 class LaunchViewModel extends BaseViewModel {
   AuthMode? _authMode;
@@ -11,22 +11,20 @@ class LaunchViewModel extends BaseViewModel {
   bool get isGuest => _authMode == AuthMode.guest;
   bool get isAccount => _authMode == AuthMode.account;
 
-  // called when the user selects 'continue as guest'
-  // sets auth mode to guest, view navigates to auth screens (or dashboard)
-  Future<bool> continueAsGuest() async {
-    return runAsync(() async {
-      _authMode = AuthMode.guest;
-      // TODO: connect to application layer
-    });
+  // called when the user selects 'contunie as guest'
+  // no async needed, just sets local auth mode.
+  // view navigates to dashboard on call.
+  void continueAsGuest() {
+    _authMode = AuthMode.guest;
+    notifyListeners();
   }
 
   // called when the user selects 'sign in/register'
-  // sets auth mode to account, view navigates to auth screens
-  Future<bool> continueAsAccount() async {
-    return runAsync(() async {
-      _authMode = AuthMode.account;
-      // TODO: connect to application layer
-    });
+  // no async needed, just sets local auth mode
+  // view navigates to login on call
+  void continueAsAccount() {
+    _authMode = AuthMode.account;
+    notifyListeners();
   }
 
   // checks if a session already exists on app launch
@@ -44,6 +42,7 @@ class LaunchViewModel extends BaseViewModel {
 
       // place holder, no existing session
       _authMode = null;
+      return false;
     });
   }
 }

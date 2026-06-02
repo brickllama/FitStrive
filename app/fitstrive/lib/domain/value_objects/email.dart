@@ -1,17 +1,26 @@
-import '../exceptions/email_exception.dart';
+import '../exceptions/format_exception.dart';
 
-/// Represents an email address.
 final class Email {
-  final String value;
+  // PUBLIC
 
-  Email._internal(this.value);
-
+  /// Creates an [email] from a string value.
+  ///
+  /// The [value] parameter must be a valid email address.
+  /// Ex: `first.last@proton.me`.
+  ///
+  /// Throws a [FormatException] if the value does not match the required format.
   factory Email({required final String value}) {
-    if (!_regex.hasMatch(value)) {
-      throw EmailException('Invalid email format!');
+    if (!_validEmail.hasMatch(value)) {
+      throw FormatException('Invalid email format');
     }
     return Email._internal(value);
   }
 
-  static final RegExp _regex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+  // PRIVATE
+
+  static final RegExp _validEmail = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+
+  Email._internal(this.value);
+
+  final String value;
 }

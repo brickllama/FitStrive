@@ -20,7 +20,7 @@ class _DashboardViewState extends State<DashboardView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FitStrive Dashboard'), 
+        title: Text('FitStrive Dashboard'),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -28,7 +28,7 @@ class _DashboardViewState extends State<DashboardView> {
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/login');
             },
-          )
+          ),
         ],
       ),
       body: Column( 
@@ -107,9 +107,13 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
-  Widget _buildMenuCard(BuildContext context, String cardName, IconData myIcon) {
+  Widget _buildMenuCard(
+    BuildContext context,
+    String cardName,
+    IconData myIcon,
+  ) {
     return Card(
-      elevation: 4.0, 
+      elevation: 4.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: InkWell(
         onTap: () {
@@ -129,13 +133,20 @@ class _DashboardViewState extends State<DashboardView> {
             );
           }
         },
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(1),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(myIcon, size: 48, color: Theme.of(context).colorScheme.primary),
-            SizedBox(height: 16), 
-            Text(cardName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Icon(
+              myIcon,
+              size: 12,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            SizedBox(height: 4),
+            Text(
+              cardName,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),

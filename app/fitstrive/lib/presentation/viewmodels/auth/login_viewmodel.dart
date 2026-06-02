@@ -1,12 +1,24 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
+import 'dart:math';
+import 'package:fitstrive/application/usecases/login_usecase.dart';
+
 import '../base_viewmodel.dart';
 import '../../models/auth/auth_form_models.dart';
-import '../../models/auth/auth_validators.dart';
+import 'package:fitstrive/domain/abstractions/result.dart';
+import 'package:fitstrive/domain/value_objects/email.dart';
+import 'package:fitstrive/domain/value_objects/password.dart';
+import 'package:flutter/material.dart';
 
 // ViewModel responsible for handling the login screen logic
-// TODO: import from application layer once available
 
 class LoginViewModel extends BaseViewModel {
+  final LoginUseCase _loginUseCase;
+
+  LoginViewModel({required final LoginUseCase loginUseCase})
+    : _loginUseCase = loginUseCase;
+
+  // LoginViewModel({required this.loginUseCase});
+
   // form controllers, owned by the ViewModel, not the View
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -41,31 +53,24 @@ class LoginViewModel extends BaseViewModel {
     _form = _form.copyWith(password: value);
   }
 
-  // email and pass validation straight to shared validators
-  String? validateEmail(String? value) => AuthValidators.email(value);
-  String? validatePassword(String? value) => AuthValidators.password(value);
-
   // login actions
   // attempts to authenticate user
   Future<bool> login() async {
-    // stop if form is invalid
-    if (!formKey.currentState!.validate()) return false;
+    // Stop if form is invalid
+    // if (!(formKey.currentState?.validate() ?? false)) return false;
 
-  // inherited from BaseViewModel
     return runAsync(() async {
-      // TODO: use application layer use case
-      //
-      // will probably use something like:
-      // final result = await _loginUseCase(
-      //   LoginParams(email: _form.email, password: _form.password),
-      // );
-      // result.fold(
-      //   (failure) => throw Exception(failure.message),
-      //   (_) => null,
-      // );
+      final email = Email(value: _form.email.trim());
+      final password = Password(value: _form.password);
 
-      // placeholder delay until application layer is connected
-      await Future.delayed(const Duration(seconds: 1));
+      final result = await _loginUseCase.execute(
+        email: email,
+        password: password,
+      );
+
+      final success = result != null;
+
+      return success;
     });
   }
 

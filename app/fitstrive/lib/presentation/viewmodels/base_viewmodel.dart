@@ -2,12 +2,7 @@ import 'package:flutter/foundation.dart';
 
 // Represent the current UI state of the ViewModel
 
-enum ViewState {
-  idle,
-  loading,
-  success,
-  error
-}
+enum ViewState { idle, loading, success, error }
 
 // base class for all ViewModels in the MVVM architecture
 // extends ChangeNotifier so Flutter widgets can listen for updates
@@ -58,7 +53,7 @@ abstract class BaseViewModel extends ChangeNotifier {
 
   // wraps any async action with loading/error/success state handling.
   // returns true on success, false on failure.
-  Future<bool> runAsync(Future<void> Function() action) async {
+  Future<bool> runAsync(Future<bool> Function() action) async {
     try {
       setLoading();
       await action();

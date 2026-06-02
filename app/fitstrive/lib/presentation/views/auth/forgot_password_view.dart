@@ -56,7 +56,6 @@ class _ForgotPasswordContent extends StatelessWidget {
   }
 }
 
-
 // Forgot password form UI
 
 // form panel responsible for collecting user email input
@@ -91,7 +90,7 @@ class _FormPanel extends StatelessWidget {
             hint: 'you@example.com',
             keyboardType: TextInputType.emailAddress,
             autofocus: true,
-            validator: vm.validateEmail,
+            // validator: vm.validateEmail,
             onChanged: vm.onEmailChanged,
             // submit when user presses "enter" on keyboard
             onFieldSubmitted: (_) => _submit(context),
@@ -117,13 +116,13 @@ class _FormPanel extends StatelessWidget {
       ),
     );
   }
+
   // hanldes form submission by calling ViewModel logic
   Future<void> _submit(BuildContext context) async {
     await vm.sendResetEmail();
     // emailSent flag on the VM triggers the confirmation panel rebuild
   }
 }
-
 
 // Success confirmation panel
 
@@ -159,9 +158,9 @@ class _ConfirmationPanel extends StatelessWidget {
         Text(
           'Check your inbox',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 12),
         Text(
@@ -169,14 +168,15 @@ class _ConfirmationPanel extends StatelessWidget {
           'Check your spam folder if you don\'t see it.',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ),
         const SizedBox(height: 40),
 
         FsPrimaryButton(
           label: 'Back to sign in',
-          onPressed: () => Navigator.popUntil(context, ModalRoute.withName('/login')),
+          onPressed: () =>
+              Navigator.popUntil(context, ModalRoute.withName('/login')),
         ),
         const SizedBox(height: 16),
 

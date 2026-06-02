@@ -52,6 +52,7 @@ class ForgotPasswordViewModel extends BaseViewModel {
       await Future.delayed(const Duration(seconds: 1));
       // mark submission successful
       _emailSent = true;
+      return true;
     });
   }
 

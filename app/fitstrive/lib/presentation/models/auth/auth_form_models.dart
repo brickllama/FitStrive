@@ -30,6 +30,8 @@ class LoginFormModel {
 class RegisterFormModel {
   final String username;
   final String email;
+  final String firstName;
+  final String? lastName;
   final String password;
   final String confirmPassword;
 
@@ -37,6 +39,8 @@ class RegisterFormModel {
   const RegisterFormModel({
     this.username = '',
     this.email = '',
+    this.firstName = '',
+    this.lastName,
     this.password = '',
     this.confirmPassword = '',
   });
@@ -45,12 +49,16 @@ class RegisterFormModel {
   RegisterFormModel copyWith({
     String? username,
     String? email,
+    String? firstName,
+    String? lastName,
     String? password,
     String? confirmPassword,
   }) {
     return RegisterFormModel(
       username: username ?? this.username,
       email: email ?? this.email,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
     );
