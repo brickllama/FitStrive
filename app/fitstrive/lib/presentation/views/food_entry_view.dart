@@ -1,36 +1,58 @@
+import 'dart:developer';
+
+import 'package:fitstrive/application/usecases/get_food_item_usecase.dart';
+import 'package:fitstrive/application/usecases/log_food_usecase.dart';
+import 'package:fitstrive/domain/entities/food_item.dart';
 import 'package:flutter/material.dart';
 
-
 class FoodEntryView extends StatefulWidget {
-  const FoodEntryView({super.key});
+  final GetFoodItemUsecase getFoodItemUsecase;
+  final LogFoodUseCase logFoodUseCase;
+
+  FoodEntryView({
+    super.key,
+    required this.getFoodItemUsecase,
+    required this.logFoodUseCase,
+  });
 
   @override
-  State<FoodEntryView> createState() => _FoodEntryViewState();
+  State<FoodEntryView> createState() => _FoodEntryViewState(
+    getFoodItemUsecase: getFoodItemUsecase,
+    logFoodUseCase: logFoodUseCase,
+  );
 }
 
 class _FoodEntryViewState extends State<FoodEntryView> {
-  final TextEditingController _weightController = TextEditingController(); 
-  
-  String _selectedMeal = 'Breakfast'; 
+  final TextEditingController _weightController = TextEditingController();
+  final GetFoodItemUsecase getFoodItemUsecase;
+  final LogFoodUseCase logFoodUseCase;
+
+  _FoodEntryViewState({
+    required this.getFoodItemUsecase,
+    required this.logFoodUseCase,
+  });
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFoodItems();
+  }
+
+  String _selectedMeal = 'Breakfast';
   final List<String> _mealOptions = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
 
-  final Map<String, int> _foodDatabase = {
-    'Apple': 52, 
-    'White Rice (Cooked)': 130,
-    'Noodles (Cooked)': 138,
-    'Banana': 89,
-    'Chicken Breast (Raw)': 165,
-    'Egg': 143,
-    'Salmon (Raw)': 208,
-  };
+  List<FoodItem> foodData = [];
+  FoodItem? _selectedFood;
+
+  bool _isLoadingFoodItems = true;
 
   String _finalSelectedFood = '';
-  int _selectedFoodCaloriesPer100g = 0;
+  double _selectedFoodCaloriesPer100g = 0;
   int _totalCalculatedCalories = 0;
 
   void _calculateCalories() {
     final weightText = _weightController.text;
-    
+
     if (weightText.isEmpty || _selectedFoodCaloriesPer100g == 0) {
       setState(() {
         _totalCalculatedCalories = 0;
@@ -39,36 +61,77 @@ class _FoodEntryViewState extends State<FoodEntryView> {
     }
 
     final weightInGrams = double.tryParse(weightText) ?? 0;
+
     setState(() {
-      _totalCalculatedCalories = ((weightInGrams / 100) * _selectedFoodCaloriesPer100g).round();
+      _totalCalculatedCalories =
+          ((weightInGrams / 100) * _selectedFoodCaloriesPer100g).round();
     });
   }
 
   void _saveFood() async {
-    if (_finalSelectedFood.isEmpty || _totalCalculatedCalories == 0) {
+    if (_selectedFood == null || _totalCalculatedCalories == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please select a food and enter its weight!')),
+        const SnackBar(
+          content: Text('Please select a food and enter its weight!'),
+        ),
       );
       return;
     }
-    
+
+    // TODO: call logFoodUseCase.execute here
+    await logFoodUseCase.execute(
+      calories: double.parse(_totalCalculatedCalories.toString()),
+      carbohydrates: _selectedFood!.macronutrients.carbohydrates,
+      fats: _selectedFood!.macronutrients.fats,
+      proteins: _selectedFood!.macronutrients.proteins,
+      date: DateTime.now(),
+      foodname: _selectedFood!.foodname.foodname,
+      weight: double.parse(_weightController.text),
+    );
+
     FocusScope.of(context).unfocus();
 
+    if (!mounted) return;
 
-    if (mounted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Logged $_totalCalculatedCalories kcal of $_finalSelectedFood!',
+        ),
+      ),
+    );
+
+    Navigator.pop(context);
+  }
+
+  Future<void> _loadFoodItems() async {
+    try {
+      final foods = await getFoodItemUsecase.execute("");
+
+      if (!mounted) return;
+
+      setState(() {
+        foodData = foods;
+        log(foodData.length.toString());
+        _isLoadingFoodItems = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        _isLoadingFoodItems = false;
+      });
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Logged ' + _totalCalculatedCalories.toString() + ' kcal of ' + _finalSelectedFood + '!')),
+        const SnackBar(content: Text('Could not load food items')),
       );
-      Navigator.pop(context); 
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Log a Meal'),
-      ),
+      appBar: AppBar(title: Text('Log a Meal')),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Column(
@@ -82,10 +145,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
                 prefixIcon: Icon(Icons.access_time),
               ),
               items: _mealOptions.map((String meal) {
-                return DropdownMenuItem<String>(
-                  value: meal,
-                  child: Text(meal),
-                );
+                return DropdownMenuItem<String>(value: meal, child: Text(meal));
               }).toList(),
               onChanged: (String? newValue) {
                 setState(() {
@@ -94,38 +154,49 @@ class _FoodEntryViewState extends State<FoodEntryView> {
               },
             ),
             SizedBox(height: 15),
-            
-            Autocomplete<String>(
+
+            Autocomplete<FoodItem>(
+              displayStringForOption: (FoodItem food) => food.foodname.foodname,
               optionsBuilder: (TextEditingValue textEditingValue) {
-                if (textEditingValue.text.isEmpty) {
-                  return const Iterable<String>.empty();
+                if (_isLoadingFoodItems || textEditingValue.text.isEmpty) {
+                  return const Iterable<FoodItem>.empty();
                 }
-                return _foodDatabase.keys.where((String food) {
-                  return food.toLowerCase().contains(textEditingValue.text.toLowerCase());
-                });
+
+                final query = textEditingValue.text.toLowerCase();
+
+                return foodData
+                    .where((FoodItem food) {
+                      return food.foodname.foodname.toLowerCase().contains(
+                        query,
+                      );
+                    })
+                    .take(25);
               },
-              onSelected: (String selection) {
-                setState(() {
-                  _finalSelectedFood = selection;
-                  _selectedFoodCaloriesPer100g = _foodDatabase[selection]!;
-                  _calculateCalories();
-                });
+              onSelected: (FoodItem selection) {
+                _selectedFood = selection;
+                _finalSelectedFood = selection.foodname.foodname;
+                _selectedFoodCaloriesPer100g = selection.calories;
+
+                _calculateCalories();
               },
-              fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
-                return TextField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  onEditingComplete: onEditingComplete,
-                  decoration: const InputDecoration(
-                    labelText: 'Search for a food (e.g., "Apple" or "Rice")',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.search),
-                  ),
-                );
-              },
+              fieldViewBuilder:
+                  (context, controller, focusNode, onEditingComplete) {
+                    return TextField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      onEditingComplete: onEditingComplete,
+                      decoration: InputDecoration(
+                        labelText: _isLoadingFoodItems
+                            ? 'Loading foods...'
+                            : 'Search for a food',
+                        border: const OutlineInputBorder(),
+                        prefixIcon: const Icon(Icons.search),
+                      ),
+                    );
+                  },
             ),
             const SizedBox(height: 16),
-            
+
             // weight input
             TextField(
               controller: _weightController,
@@ -139,7 +210,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
               onChanged: (value) => _calculateCalories(),
             ),
             const SizedBox(height: 32),
-            
+
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -156,7 +227,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
                   Text(
                     _totalCalculatedCalories.toString() + ' kcal',
                     style: TextStyle(
-                      fontSize: 36, 
+                      fontSize: 36,
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
@@ -165,7 +236,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
               ),
             ),
             const SizedBox(height: 32),
-            
+
             ElevatedButton(
               onPressed: _saveFood,
               style: ElevatedButton.styleFrom(

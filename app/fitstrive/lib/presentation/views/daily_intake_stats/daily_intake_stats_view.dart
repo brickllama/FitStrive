@@ -8,12 +8,26 @@ import '../../widgets/daily_intake_stats/daily_intake_stats_widgets.dart';
 //
 // First screen after login or continue as guest (for now)
 // Shows daily calorie summary, macros, and the days meal list
-class DailyIntakeView extends StatelessWidget {
+class DailyIntakeView extends StatefulWidget {
   const DailyIntakeView({super.key});
 
   @override
+  State<DailyIntakeView> createState() => _DailyIntakeViewState();
+}
+
+class _DailyIntakeViewState extends State<DailyIntakeView> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<DailyIntakeViewModel>().loadDailyIntake();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return _DailyIntakeContent();
+    return const _DailyIntakeContent();
   }
 }
 
@@ -49,7 +63,10 @@ class _DailyIntakeContent extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // TODO: add navigation to 'add a meal' button
-          // Navigator.pushNamed(context, '/nutrition/add');
+          Navigator.pushNamed(context, '/log-food');
+          if (context.mounted) {
+            context.read<DailyIntakeViewModel>().loadDailyIntake();
+          }
         },
         tooltip: 'Add meal',
         child: const Icon(Icons.add),
@@ -181,7 +198,7 @@ class _DailyIntakeContent extends StatelessWidget {
           if (cardName == 'Log Food') {
             Navigator.pushNamed(context, '/log-food');
           } else if (cardName == 'Log Exercise') {
-            Navigator.pushNamed(context, '/log-exercise');
+            Navigator.pushNamed(context, '/log-weight');
           } else if (cardName == 'My Goals') {
             Navigator.pushNamed(context, '/my-goals');
           } else if (cardName == 'Profile') {

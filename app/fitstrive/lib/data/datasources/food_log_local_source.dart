@@ -12,7 +12,7 @@ class FoodLogLocalSourceImpl extends FoodLogLocalSource {
   FoodLogLocalSourceImpl(this.database);
   @override
   Future<bool> AddFoodEntry(FoodLogModel entry) async {
-    if (await database.insert("food", entry.toJson()) != 0) {
+    if (await database.insert("food_log", entry.toJson()) != 0) {
       return true;
     }
     return false;
@@ -20,18 +20,21 @@ class FoodLogLocalSourceImpl extends FoodLogLocalSource {
 
   @override
   Future<List<FoodLogModel>> getFoodEntries(DateTime from, DateTime to) async {
-    var res = await database.query(
-      "food",
-      where: 'date => ? and date <= ?',
+    final rows = await database.query(
+      'food_log',
+      where: 'date >= ? AND date < ?',
       whereArgs: [from.toIso8601String(), to.toIso8601String()],
     );
-    return res.map((row) => FoodLogModel.fromJson(row)).toList();
+
+    return rows
+        .map((row) => FoodLogModel.fromJson(Map<String, dynamic>.from(row)))
+        .toList();
   }
 
   @override
   Future<bool> removeFoodEntry(String entry) async {
     var res = await database.delete(
-      "food",
+      "food_log",
       where: "id = ?",
       whereArgs: [entry],
     );

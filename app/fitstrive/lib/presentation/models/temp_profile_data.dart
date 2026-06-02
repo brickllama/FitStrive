@@ -4,9 +4,11 @@ class TempProfileData {
   static String age = '';
   static String gender = '';
   static String country = '';
+  static double weight = 0;
+  static double length = 0;
   static int dailyCalorieDeficit = 0;
   static double targetDailyWeightDeficit = 0.0;
-  static String goalType = ''; 
+  static String goalType = '';
   static double totalTargetAmount = 0.0;
   static String deadlineDate = '';
 
@@ -15,6 +17,10 @@ class TempProfileData {
   static DateTime activeDate = DateTime.now();
 
   static String getTodayString() {
-    return activeDate.year.toString() + '-' + activeDate.month.toString() + '-' + activeDate.day.toString();
+    return activeDate.year.toString() +
+        '-' +
+        activeDate.month.toString() +
+        '-' +
+        activeDate.day.toString();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fitstrive/data/datasources/food_item_local_source.dart';
 import 'package:fitstrive/data/model/food_item_model.dart';
 import 'package:fitstrive/domain/entities/food_item.dart';
@@ -21,8 +23,8 @@ class FoodItemRepositoryImpl extends FoodItemRepository {
   }
 
   @override
-  Future<List<FoodItem>> getFoods() async {
-    List<FoodItemModel> foods = await localSource.getFoodEntries();
+  Future<List<FoodItem>> getFoods(String search) async {
+    List<FoodItemModel> foods = await localSource.getFoodEntries(search);
     return foods.map((foodmodel) => foodmodel.toEntity()).toList();
   }
 }

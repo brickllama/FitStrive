@@ -28,14 +28,14 @@ class FoodItemModel {
 
   factory FoodItemModel.fromJson(Map<String, dynamic> json) {
     return FoodItemModel(
-      id: json['id'],
-      foodname: json['foodname'],
-      calories: json['calories'],
-      weight: json['weight'],
-      unitSymbol: json['unitSymbol'],
-      carbohydrates: json['carbohydrates'],
-      protein: json['protein'],
-      fats: json['fats'],
+      id: json['id'].toString(),
+      foodname: json['foodname'] as String,
+      calories: (json['calories'] as num).toDouble(),
+      weight: (json['weight'] as num).toDouble(),
+      unitSymbol: json['unitSymbol'] as String,
+      carbohydrates: (json['carbohydrates'] as num).toDouble(),
+      protein: (json['protein'] as num).toDouble(),
+      fats: (json['fats'] as num).toDouble(),
     );
   }
 

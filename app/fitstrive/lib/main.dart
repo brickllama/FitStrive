@@ -143,7 +143,10 @@ class FitStriveApp extends StatelessWidget {
           '/forgot-password': (_) => const ForgotPasswordView(),
           '/daily-intake-stats': (_) => const DailyIntakeView(),
           '/dashboard': (_) => const DashboardView(),
-          '/log-food': (_) => const FoodEntryView(),
+          '/log-food': (_) => FoodEntryView(
+            getFoodItemUsecase: getFoodItemUsecase,
+            logFoodUseCase: logfoodUsecase,
+          ),
           '/log-weight': (_) => const WeightEntryView(),
           '/my-goals': (_) => const GoalsSetupView(),
           '/statistics': (_) => const StatisticsView(),

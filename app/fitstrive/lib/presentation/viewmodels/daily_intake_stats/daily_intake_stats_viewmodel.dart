@@ -1,13 +1,16 @@
+import 'dart:developer';
+
 import 'package:fitstrive/application/usecases/get_foods_usecase.dart';
+import 'package:fitstrive/domain/entities/food_log.dart';
 
 import '../base_viewmodel.dart';
 import '../../models/daily_intake_stats/daily_intake_stats_models.dart';
 
-// ViewModel responsible for the daily intake flow
-
 class DailyIntakeViewModel extends BaseViewModel {
-  GetFoodsUsecase getFoodsUsecase;
+  final GetFoodsUsecase getFoodsUsecase;
+
   DailyIntakeViewModel({required this.getFoodsUsecase});
+
   DailyNutritionSummary _summary = const DailyNutritionSummary();
   List<MealEntryItem> _meals = [];
   DateTime _selectedDate = DateTime.now();
@@ -17,45 +20,87 @@ class DailyIntakeViewModel extends BaseViewModel {
   DateTime get selectedDate => _selectedDate;
   bool get hasMeals => _meals.isNotEmpty;
 
-  // loads daily summary and meal list for the selected date
-  // called on screen init and when the user changes the date
   Future<void> loadDailyIntake({DateTime? date}) async {
-    _selectedDate = date ?? DateTime.now();
+    _selectedDate = date ?? _selectedDate;
+
+    final from = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+    );
+
+    final to = from.add(const Duration(days: 1));
 
     await runAsync(() async {
-      // TODO: connect application layer
+      final foodLogs = await getFoodsUsecase.execute(from, to);
+      log("Food Log Items: ${foodLogs.length.toString()}");
+      _meals = foodLogs.map(_toMealEntryItem).toList();
 
-      // hardcoded meal entry just for show
-      _summary = const DailyNutritionSummary(
-        caloriesConsumed: 870,
-        calorieGoal: 2000,
-        proteinG: 80,
-        carbsG: 140,
-        fatG: 45,
+      final totalCalories = foodLogs.fold<double>(
+        0,
+        (sum, food) => sum + food.calories,
       );
-      _meals = const [
-        MealEntryItem(
-          id: '1',
-          foodName: 'Yoghurt and Granola',
-          calories: 350,
-          amountG: 200,
-        ),
-        MealEntryItem(
-          id: '2',
-          foodName: 'Chicken and Rice',
-          calories: 520,
-          amountG: 300,
-        ),
-      ];
+
+      final totalProtein = foodLogs.fold<double>(
+        0,
+        (sum, food) => sum + food.macronutrients.proteins,
+      );
+
+      final totalCarbs = foodLogs.fold<double>(
+        0,
+        (sum, food) => sum + food.macronutrients.carbohydrates,
+      );
+
+      final totalFats = foodLogs.fold<double>(
+        0,
+        (sum, food) => sum + food.macronutrients.fats,
+      );
+
+      _summary = DailyNutritionSummary(
+        caloriesConsumed: totalCalories.round(),
+        calorieGoal: 2000,
+        proteinG: totalProtein.round().toDouble(),
+        carbsG: totalCarbs.round().toDouble(),
+        fatG: totalFats.round().toDouble(),
+      );
       return true;
     });
   }
 
-  // removes a meal entry by id
+  MealEntryItem _toMealEntryItem(FoodLog food) {
+    return MealEntryItem(
+      id: food.id,
+      foodName: food.foodname.foodname,
+      calories: food.calories.round(),
+      amountG: food.weight.grams,
+    );
+  }
+
+  double _toGrams(double weight, String unitSymbol) {
+    if (unitSymbol.toLowerCase() == 'kg') {
+      return weight * 1000;
+    }
+
+    return weight;
+  }
+
   Future<void> deleteMeal(String id) async {
     await runAsync(() async {
-      // TODO: connect to application layer
+      // TODO: call delete food log usecase here later
       _meals = _meals.where((m) => m.id != id).toList();
+
+      final totalCalories = _meals.fold<int>(
+        0,
+        (sum, meal) => sum + meal.calories,
+      );
+
+      _summary = DailyNutritionSummary(
+        caloriesConsumed: totalCalories,
+        calorieGoal: _summary.calorieGoal,
+        proteinG: _summary.proteinG,
+        carbsG: _summary.carbsG,
+        fatG: _summary.fatG,
+      );
       return true;
     });
   }

@@ -1,5 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
-import '../models/temp_profile_data.dart'; 
+import '../models/temp_profile_data.dart';
 
 class ProfileSetupView extends StatefulWidget {
   const ProfileSetupView({super.key});
@@ -12,14 +14,18 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
-  
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _lengthController = TextEditingController();
+
   String? _selectedGender;
   final List<String> _genderOptions = ['Male', 'Female'];
 
   void _saveProfile() {
-    if (_nameController.text.isEmpty || 
-        _ageController.text.isEmpty || 
-        _countryController.text.isEmpty || 
+    if (_nameController.text.isEmpty ||
+        _ageController.text.isEmpty ||
+        _countryController.text.isEmpty ||
+        _weightController.text.isEmpty ||
+        _lengthController.text.isEmpty ||
         _selectedGender == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please fill out all fields to continue!')),
@@ -31,15 +37,20 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     TempProfileData.age = _ageController.text;
     TempProfileData.gender = _selectedGender!;
     TempProfileData.country = _countryController.text;
+    TempProfileData.length = double.parse(_lengthController.text);
+    TempProfileData.weight = double.parse(_weightController.text);
 
     FocusScope.of(context).unfocus();
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-
-        SnackBar(content: Text('Welcome, ' + TempProfileData.name + '! Profile saved.')),
+        SnackBar(
+          content: Text(
+            'Welcome, ' + TempProfileData.name + '! Profile saved.',
+          ),
+        ),
       );
-      
+
       Navigator.pushReplacementNamed(context, '/dashboard');
     }
   }
@@ -49,7 +60,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Complete Your Profile'),
-        automaticallyImplyLeading: false, 
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
@@ -114,12 +125,27 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
               ),
             ),
             SizedBox(height: 32),
-
+            TextField(
+              controller: _weightController,
+              decoration: InputDecoration(
+                labelText: 'Weight',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.public),
+              ),
+            ),
+            SizedBox(height: 32),
+            TextField(
+              controller: _lengthController,
+              decoration: InputDecoration(
+                labelText: 'Length',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.public),
+              ),
+            ),
+            SizedBox(height: 32),
             ElevatedButton(
               onPressed: _saveProfile,
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-              ),
+
               child: Text('Save & Continue', style: TextStyle(fontSize: 18)),
             ),
           ],
