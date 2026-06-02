@@ -47,6 +47,7 @@ class DailyIntakeViewModel extends BaseViewModel {
           amountG: 300,
         ),
       ];
+      return true;
     });
   }
 
@@ -55,6 +56,7 @@ class DailyIntakeViewModel extends BaseViewModel {
     await runAsync(() async {
       // TODO: connect to application layer
       _meals = _meals.where((m) => m.id != id).toList();
+      return true;
     });
   }
 }

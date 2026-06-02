@@ -56,19 +56,21 @@ class LoginViewModel extends BaseViewModel {
   // login actions
   // attempts to authenticate user
   Future<bool> login() async {
-    // stop if form is invalid
-    //if (!formKey.currentState!.validate()) return false;
+    // Stop if form is invalid
+    // if (!(formKey.currentState?.validate() ?? false)) return false;
 
-    // inherited from BaseViewModel
     return runAsync(() async {
-      var email = Email(value: _form.email);
-      var password = Password(value: _form.password);
+      final email = Email(value: _form.email.trim());
+      final password = Password(value: _form.password);
+
       final result = await _loginUseCase.execute(
         email: email,
         password: password,
       );
-      print('worked? ${result is Ok}');
-      // TODO: proceed?
+
+      final success = result != null;
+
+      return success;
     });
   }
 

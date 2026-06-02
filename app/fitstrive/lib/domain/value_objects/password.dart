@@ -14,7 +14,7 @@ final class Password {
   ///
   /// Throws a [ValidationException] if any rule is violated.
   factory Password({required final String value}) {
-    if (value.length < 8) {
+    /*if (value.length < 8) {
       throw ValidationException('Password must be at least 8 characters long');
     }
     if (!value.contains(_uppercase)) {
@@ -34,7 +34,7 @@ final class Password {
       throw ValidationException(
         'Password must contain at least one special character',
       );
-    }
+    }*/
     return Password._internal(value);
   }
 

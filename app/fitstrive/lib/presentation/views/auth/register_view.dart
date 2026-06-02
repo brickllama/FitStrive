@@ -170,6 +170,7 @@ class _RegisterContent extends StatelessWidget {
     // only navigate if registration succeeded and widget is still mounted
     if (success && context.mounted) {
       // TODO: send user to daily intake stats
+      Navigator.pushNamed(context, "/login");
     }
   }
 }

@@ -13,10 +13,7 @@ class DailyIntakeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => DailyIntakeViewModel().loadDailyIntake(),
-      child: const _DailyIntakeContent(),
-    );
+    return _DailyIntakeContent();
   }
 }
 
@@ -97,6 +94,23 @@ class _DailyIntakeContent extends StatelessWidget {
           MacroRow(summary: vm.summary),
           const SizedBox(height: 24),
 
+          // menu grid
+          GridView.count(
+            crossAxisCount: 4,
+            crossAxisSpacing: 15,
+            mainAxisSpacing: 16,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              _buildMenuCard(context, 'Log Exercise', Icons.fitness_center),
+              _buildMenuCard(context, 'My Goals', Icons.flag),
+              _buildMenuCard(context, 'Statistics', Icons.bar_chart),
+              _buildMenuCard(context, 'Profile', Icons.person),
+            ],
+          ),
+
+          const SizedBox(height: 24),
+
           // meals section header
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,5 +166,44 @@ class _DailyIntakeContent extends StatelessWidget {
       'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
+  }
+
+  Widget _buildMenuCard(
+    BuildContext context,
+    String cardName,
+    IconData myIcon,
+  ) {
+    return Card(
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: InkWell(
+        onTap: () {
+          if (cardName == 'Log Food') {
+            Navigator.pushNamed(context, '/log-food');
+          } else if (cardName == 'Log Exercise') {
+            Navigator.pushNamed(context, '/log-exercise');
+          } else if (cardName == 'My Goals') {
+            Navigator.pushNamed(context, '/my-goals');
+          } else if (cardName == 'Profile') {
+            Navigator.pushNamed(context, '/profile');
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(cardName + ' screen coming soon!')),
+            );
+          }
+        },
+        borderRadius: BorderRadius.circular(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              myIcon,
+              size: 48,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -123,7 +123,7 @@ class FitStriveApp extends StatelessWidget {
               RegisterViewModel(registrationUseCase: registerUseCase),
         ),
         ChangeNotifierProvider(
-          create: (_) => DailyIntakeViewModel(getFoodsUsecase: getFoodsUsecase),
+          create: (_) => DailyIntakeViewModel(getFoodsUsecase: getfoodUsecase),
         ),
       ],
       child: MaterialApp(

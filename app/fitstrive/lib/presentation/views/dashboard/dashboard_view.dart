@@ -19,11 +19,11 @@ class DashboardView extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(1.0),
         child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 16,
+          crossAxisCount: 5,
+          crossAxisSpacing: 1,
+          mainAxisSpacing: 1,
           children: [
             _buildMenuCard(context, 'Log Food', Icons.restaurant),
             _buildMenuCard(context, 'Log Exercise', Icons.fitness_center),
@@ -60,19 +60,19 @@ class DashboardView extends StatelessWidget {
             );
           }
         },
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(1),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               myIcon,
-              size: 48,
+              size: 12,
               color: Theme.of(context).colorScheme.primary,
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 4),
             Text(
               cardName,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
           ],
         ),

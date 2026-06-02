@@ -15,6 +15,7 @@ import 'package:fitstrive/domain/value_objects/password.dart';
 
 class RegisterViewModel extends BaseViewModel {
   final RegisterUseCase _registrationUseCase;
+  bool _registerSuccess = false;
 
   RegisterViewModel({required final RegisterUseCase registrationUseCase})
     : _registrationUseCase = registrationUseCase;
@@ -89,10 +90,14 @@ class RegisterViewModel extends BaseViewModel {
           name: name,
           password: password,
         );
-        // TODO: proceed?
+        if (result != null) {
+          notifyListeners();
+        }
+        return true;
       } catch (e) {
         log("error Register in ViewmOdel 2");
         log(e.toString());
+        return false;
       }
     });
   }

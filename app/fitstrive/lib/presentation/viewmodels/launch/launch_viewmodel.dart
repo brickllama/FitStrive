@@ -27,7 +27,6 @@ class LaunchViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-
   // checks if a session already exists on app launch
   // if so, the View skips the launch screen entirely to user dashboard
   Future<void> checkExistingSession() async {
@@ -43,6 +42,7 @@ class LaunchViewModel extends BaseViewModel {
 
       // place holder, no existing session
       _authMode = null;
+      return false;
     });
   }
 }
