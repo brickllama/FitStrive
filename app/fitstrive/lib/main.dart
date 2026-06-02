@@ -30,8 +30,9 @@ import 'presentation/views/dashboard/dashboard_view.dart';
 import 'presentation/views/food_entry_view.dart';
 import 'presentation/views/profile_setup_view.dart';
 import 'presentation/views/profile_view.dart';
-import 'presentation/views/exercise_entry_view.dart';
+import 'presentation/views/weight_entry_view.dart';
 import 'presentation/views/goals_setup_view.dart';
+import 'presentation/views/statistics_view.dart';
 
 void main() async {
   await dotenv.load(fileName: 'config/.env');
@@ -136,15 +137,17 @@ class FitStriveApp extends StatelessWidget {
         ),
         home: const LaunchView(),
         routes: {
-          '/launch': (_) => const LaunchView(),
-          '/login': (_) => const LoginView(),
-          '/register': (_) => const RegisterView(),
-          '/forgot-password': (_) => const ForgotPasswordView(),
-          '/daily-intake-stats': (_) => const DailyIntakeView(),
-          '/dashboard': (_) => const DashboardView(),
-          '/log-food': (_) => const FoodEntryView(),
-          '/setup-profile': (_) => const ProfileSetupView(),
-          '/profile': (_) => const ProfileView(),
+        '/launch': (_) => const LaunchView(),
+        '/login': (_) => const LoginView(),
+        '/register': (_) => const RegisterView(),
+        '/forgot-password': (_) => const ForgotPasswordView(),
+        '/dashboard': (_) => const DashboardView(),
+        '/log-food': (_) => const FoodEntryView(),
+        '/log-weight': (_) => const WeightEntryView(),
+        '/my-goals': (_) => const GoalsSetupView(),
+        '/statistics': (_) => const StatisticsView(),
+        '/setup-profile': (_) => const ProfileSetupView(),
+        '/profile': (_) => const ProfileView(),
         },
       ),
     );

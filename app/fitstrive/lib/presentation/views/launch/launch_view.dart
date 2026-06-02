@@ -46,13 +46,11 @@ class _LaunchContent extends StatelessWidget {
 
                   const Spacer(flex: 2),
 
-                  // error banner shown if session check fails
                   if (vm.hasError) ...[
                     FsErrorBanner(message: vm.errorMessage!),
                     const SizedBox(height: 24),
                   ],
 
-                  // sign in / register button
                   FsPrimaryButton(
                     label: 'Sign in / Register',
                     isLoading: vm.isLoading && vm.isAccount,
@@ -81,24 +79,20 @@ class _LaunchContent extends StatelessWidget {
     );
   }
 
-  // submit handlers for the two options on the launch screen
-  // tells the ViewModel to set the auth mode to account or guest
-  //
-  // No await needed — continueAsAccount is now synchronous
-  void _onContinueAsAccount(BuildContext context, LaunchViewModel vm) {
-    vm.continueAsAccount();
-    Navigator.pushNamed(context, '/login');
+
+  Future<void> _onContinueAsAccount(
+      BuildContext context, LaunchViewModel vm) async {
+    final success = await vm.continueAsAccount();
+    if (success && context.mounted) {
+      Navigator.pushNamed(context, '/login');
+    }
   }
 
-  // No await needed — continueAsGuest is now synchronous
-  void _onContinueAsGuest(BuildContext context, LaunchViewModel vm) {
-    vm.continueAsGuest();
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      '/daily-intake-stats',
-      // clears the stack, no way to back to launch
-      (route) => false,
-    );
+  Future<void> _onContinueAsGuest(
+      BuildContext context, LaunchViewModel vm) async {
+    final success = await vm.continueAsGuest();
+    if (success && context.mounted) {
+    }
   }
 }
 
@@ -111,7 +105,6 @@ class _LaunchHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // FitStrive logo, can be replaced with an image
         Container(
           width: 96,
           height: 96,
