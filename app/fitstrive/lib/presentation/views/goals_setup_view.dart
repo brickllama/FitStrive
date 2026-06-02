@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/temp_profile_data.dart'; // Don't forget the import!
+import '../models/temp_profile_data.dart';
 
 class GoalsSetupView extends StatefulWidget {
   const GoalsSetupView({super.key});
@@ -49,7 +49,6 @@ class _GoalsSetupViewState extends State<GoalsSetupView> {
     if (days > 0) {
       setState(() {
         _daysRemaining = days;
-        // THE NEW MATH: Just divide the weight by the days!
         _dailyWeightDeficit = targetWeightAmount / days;
       });
     }

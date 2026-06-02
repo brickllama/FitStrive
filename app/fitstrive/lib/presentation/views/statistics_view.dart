@@ -9,12 +9,69 @@ class StatisticsView extends StatefulWidget {
 }
 
 class _StatisticsViewState extends State<StatisticsView> {
+  void _confirmAndResetGoal() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('🎉Congratulations! 🎉', textAlign: TextAlign.center),
+        content: Text(
+          'You reached your goal! Do you want to confirm your progress and reset?',
+          textAlign: TextAlign.center,
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Not Yet', style: TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              TempProfileData.weightLogByDate.clear();
+              TempProfileData.targetDailyWeightDeficit = 0.0;
+              TempProfileData.totalTargetAmount = 0.0;
+              TempProfileData.goalType = '';
+              TempProfileData.deadlineDate = '';
+
+              // 2. CLOSE DIALOG AND GO BACK TO DASHBOARD
+              Navigator.pop(context); 
+              Navigator.pop(context); 
+              
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('History cleared. Ready for your next goal!')),
+              );
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+            child: Text('Confirm & Reset', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Map<String, double> weightData = TempProfileData.weightLogByDate;
 
     List<String> sortedDates = weightData.keys.toList();
-    sortedDates.sort(); 
+    sortedDates.sort();
+
+    bool isGoalAchieved = false;
+    if (TempProfileData.totalTargetAmount > 0 && sortedDates.isNotEmpty) {
+      double startWeight = weightData[sortedDates.first]!;
+      double currentWeight = weightData[sortedDates.last]!;
+      
+      if (TempProfileData.goalType == 'Lose Weight') {
+        // Did they lose enough?
+        if (currentWeight <= startWeight - TempProfileData.totalTargetAmount) {
+          isGoalAchieved = true;
+        }
+      } else if (TempProfileData.goalType == 'Gain Weight') {
+        // Did they gain enough?
+        if (currentWeight >= startWeight + TempProfileData.totalTargetAmount) {
+          isGoalAchieved = true;
+        }
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -33,8 +90,37 @@ class _StatisticsViewState extends State<StatisticsView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  if (isGoalAchieved)
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      margin: EdgeInsets.only(bottom: 24),
+                      decoration: BoxDecoration(
+                        color: Colors.amber.shade100,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.amber.shade400, width: 2),
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(Icons.emoji_events, color: Colors.amber.shade800, size: 48),
+                          SizedBox(height: 8),
+                          Text('GOAL COMPLETED!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.amber.shade900)),
+                          SizedBox(height: 4),
+                          Text('You successfully reached your target.', style: TextStyle(color: Colors.amber.shade800)),
+                          SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: _confirmAndResetGoal,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.amber.shade600, 
+                              foregroundColor: Colors.white,
+                              minimumSize: Size(double.infinity, 45)
+                            ),
+                            child: Text('Reset', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          )
+                        ],
+                      ),
+                    )
 
-                  if (TempProfileData.totalTargetAmount > 0)
+                  else if (TempProfileData.totalTargetAmount > 0)
                     Container(
                       padding: EdgeInsets.all(16),
                       margin: EdgeInsets.only(bottom: 24),
@@ -54,7 +140,6 @@ class _StatisticsViewState extends State<StatisticsView> {
                                 Text('Current Goal', style: TextStyle(color: Colors.purple.shade900, fontWeight: FontWeight.bold)),
                                 SizedBox(height: 4),
                                 Text(
-
                                   TempProfileData.goalType + ' ' + TempProfileData.totalTargetAmount.toString() + ' kg by ' + TempProfileData.deadlineDate,
                                   style: TextStyle(color: Colors.purple.shade800, fontSize: 16),
                                 ),
@@ -110,7 +195,6 @@ class _StatisticsViewState extends State<StatisticsView> {
                         int reversedIndex = sortedDates.length - 1 - index;
                         String dateString = sortedDates[reversedIndex];
                         double currentWeight = weightData[dateString]!;
-
                         double? dailyDifference;
                         if (reversedIndex > 0) {
                           String previousDate = sortedDates[reversedIndex - 1];
@@ -118,19 +202,56 @@ class _StatisticsViewState extends State<StatisticsView> {
 
                           dailyDifference = currentWeight - previousWeight; 
                         }
+                        String startDateStr = sortedDates.first;
+                        double startWeight = weightData[startDateStr]!;
+
+                        DateTime startDate = DateTime.parse(startDateStr.split('-').map((e) => e.padLeft(2, '0')).join('-') + " 00:00:00");
+                        DateTime currentDate = DateTime.parse(dateString.split('-').map((e) => e.padLeft(2, '0')).join('-') + " 00:00:00");
+                        
+                        int daysPassed = currentDate.difference(startDate).inDays;
+
+                        double expectedWeight = startWeight;
+                        if (TempProfileData.goalType == 'Lose Weight') {
+                          expectedWeight -= (daysPassed * TempProfileData.targetDailyWeightDeficit);
+                        } else if (TempProfileData.goalType == 'Gain Weight') {
+                          expectedWeight += (daysPassed * TempProfileData.targetDailyWeightDeficit);
+                        }
+
+                        bool onTrack = false;
+                        if (TempProfileData.goalType == 'Lose Weight') {
+                          onTrack = currentWeight <= expectedWeight;
+                        } else {
+                          onTrack = currentWeight >= expectedWeight;
+                        }
 
                         return Card(
                           margin: EdgeInsets.only(bottom: 12),
                           child: ListTile(
                             leading: CircleAvatar(
-                              backgroundColor: Colors.blue.shade100,
-                              child: Icon(Icons.scale, color: Colors.blue.shade800),
+
+                              backgroundColor: onTrack ? Colors.green.shade100 : Colors.orange.shade100,
+                              child: Icon(Icons.scale, color: onTrack ? Colors.green.shade800 : Colors.orange.shade800),
                             ),
                             title: Text(
                               currentWeight.toString() + ' kg', 
                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                            subtitle: Text(dateString), 
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(dateString),
+
+                                if (TempProfileData.targetDailyWeightDeficit > 0 && daysPassed > 0)
+                                  Text(
+                                    onTrack ? 'On Track! (Expected: ${expectedWeight.toStringAsFixed(1)} kg)' : 'Behind Target (Expected: ${expectedWeight.toStringAsFixed(1)} kg)',
+                                    style: TextStyle(
+                                      color: onTrack ? Colors.green.shade700 : Colors.orange.shade700,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                              ],
+                            ), 
 
                             trailing: _buildDeficitBadge(dailyDifference),
                           ),
@@ -144,15 +265,13 @@ class _StatisticsViewState extends State<StatisticsView> {
     );
   }
 
-  Widget _buildDeficitBadge(double? difference) {
+Widget _buildDeficitBadge(double? difference) {
     if (difference == null) {
       return Text('Starting\nWeight', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey, fontSize: 12));
     }
 
     String diffString = difference.toStringAsFixed(1); 
-
     double requiredDeficit = TempProfileData.targetDailyWeightDeficit;
-
     bool hitGoal = difference <= -requiredDeficit;
 
     if (hitGoal) {
@@ -162,29 +281,21 @@ class _StatisticsViewState extends State<StatisticsView> {
           color: Colors.green.shade100,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Goal Reached!', style: TextStyle(color: Colors.green.shade800, fontSize: 10, fontWeight: FontWeight.bold)),
-            Text(diffString + ' kg', style: TextStyle(color: Colors.green.shade800, fontWeight: FontWeight.bold)),
-          ],
+        child: Text(
+          diffString + ' kg', 
+          style: TextStyle(color: Colors.green.shade800, fontWeight: FontWeight.bold)
         ),
       );
-    } 
-
-    else {
+    } else {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
           color: Colors.orange.shade100,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Missed Target', style: TextStyle(color: Colors.orange.shade900, fontSize: 10, fontWeight: FontWeight.bold)),
-            Text((difference > 0 ? '+' : '') + diffString + ' kg', style: TextStyle(color: Colors.orange.shade900, fontWeight: FontWeight.bold)),
-          ],
+        child: Text(
+          (difference > 0 ? '+' : '') + diffString + ' kg', 
+          style: TextStyle(color: Colors.orange.shade900, fontWeight: FontWeight.bold)
         ),
       );
     }
