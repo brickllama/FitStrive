@@ -119,7 +119,7 @@ class _DailyIntakeContent extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              _buildMenuCard(context, 'Log Exercise', Icons.fitness_center),
+              _buildMenuCard(context, 'Log Weight', Icons.scale),
               _buildMenuCard(context, 'My Goals', Icons.flag),
               _buildMenuCard(context, 'Statistics', Icons.bar_chart),
               _buildMenuCard(context, 'Profile', Icons.person),
@@ -197,10 +197,13 @@ class _DailyIntakeContent extends StatelessWidget {
         onTap: () {
           if (cardName == 'Log Food') {
             Navigator.pushNamed(context, '/log-food');
-          } else if (cardName == 'Log Exercise') {
+          } else if (cardName == 'Log Weight') {
             Navigator.pushNamed(context, '/log-weight');
           } else if (cardName == 'My Goals') {
             Navigator.pushNamed(context, '/my-goals');
+          } else if (cardName == 'Statistics') {
+            // Make sure Statistics connects!
+            Navigator.pushNamed(context, '/statistics');
           } else if (cardName == 'Profile') {
             Navigator.pushNamed(context, '/profile');
           } else {
