@@ -1,3 +1,5 @@
+import 'package:fitstrive/application/usecases/get_user_usercase.dart';
+import 'package:fitstrive/application/usecases/set_user_usercase.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../viewmodels/auth/register_viewmodel.dart';
@@ -9,8 +11,13 @@ import '../../widgets/auth/auth_widgets.dart';
 // so the UI can react to state changes
 
 class RegisterView extends StatelessWidget {
-  const RegisterView({super.key});
-
+  const RegisterView({
+    super.key,
+    required this.getUserUsecase,
+    required this.setUserUsecase,
+  });
+  final GetUserUsercase getUserUsecase;
+  final SetUserUsercase setUserUsecase;
   @override
   Widget build(BuildContext context) {
     return _RegisterContent();
@@ -135,7 +142,9 @@ class _RegisterContent extends StatelessWidget {
                     FsPrimaryButton(
                       label: 'Create account',
                       isLoading: vm.isLoading,
-                      onPressed: () => _submit(context, vm),
+                      onPressed: () {
+                        _submit(context, vm);
+                      },
                     ),
                     const SizedBox(height: 24),
 
@@ -167,10 +176,11 @@ class _RegisterContent extends StatelessWidget {
   // calls the ViewModel and navigates on success
   Future<void> _submit(BuildContext context, RegisterViewModel vm) async {
     final success = await vm.register();
-    // only navigate if registration succeeded and widget is still mounted
-    if (success && context.mounted) {
-      // TODO: send user to daily intake stats
-      Navigator.pushNamed(context, "/login");
+
+    if (!context.mounted) return;
+
+    if (success) {
+      Navigator.pushReplacementNamed(context, "/setup-profile");
     }
   }
 }

@@ -5,5 +5,7 @@ class GetUserUsercase {
   final UserRepository userRepository;
   GetUserUsercase({required this.userRepository});
 
-  Future<User> execute() async {}
+  Future<User> execute() async {
+    return await userRepository.getUser();
+  }
 }

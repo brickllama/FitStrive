@@ -1,11 +1,13 @@
 import 'package:fitstrive/application/usecases/add_food_item_usecase.dart';
 import 'package:fitstrive/application/usecases/get_food_item_usecase.dart';
 import 'package:fitstrive/application/usecases/get_foods_usecase.dart';
+import 'package:fitstrive/application/usecases/get_user_usercase.dart';
 import 'package:fitstrive/application/usecases/log_food_usecase.dart';
 import 'package:fitstrive/application/usecases/login_usecase.dart';
 import 'package:fitstrive/application/usecases/register_usecase.dart';
 import 'package:fitstrive/application/usecases/remove_food_item_usecase.dart';
 import 'package:fitstrive/application/usecases/remove_food_usecase.dart';
+import 'package:fitstrive/application/usecases/set_user_usercase.dart';
 import 'package:fitstrive/data/datasources/food_item_local_source.dart';
 import 'package:fitstrive/data/datasources/food_log_local_source.dart';
 
@@ -82,6 +84,12 @@ void main() async {
   final RemoveFoodUsecase removeFoodUsecase = RemoveFoodUsecase(
     foodLogRepository,
   );
+  final SetUserUsercase setUserUsercase = SetUserUsercase(
+    userRepository: userRepository,
+  );
+  final GetUserUsercase getUserUsercase = GetUserUsercase(
+    userRepository: userRepository,
+  );
 
   runApp(
     FitStriveApp(
@@ -93,6 +101,8 @@ void main() async {
       removeFoodItemUsecase: removeFoodItemUsecase,
       getFoodItemUsecase: getFoodItemUsecase,
       removeFoodUsecase: removeFoodUsecase,
+      getUserUsecase: getUserUsercase,
+      setUserUsecase: setUserUsercase,
     ),
   );
 }
@@ -108,6 +118,8 @@ class FitStriveApp extends StatelessWidget {
     required this.removeFoodItemUsecase,
     required this.getFoodItemUsecase,
     required this.removeFoodUsecase,
+    required this.getUserUsecase,
+    required this.setUserUsecase,
   });
 
   final LoginUseCase loginUseCase;
@@ -118,6 +130,8 @@ class FitStriveApp extends StatelessWidget {
   final RemoveFoodItemUsecase removeFoodItemUsecase;
   final GetFoodItemUsecase getFoodItemUsecase;
   final RemoveFoodUsecase removeFoodUsecase;
+  final GetUserUsercase getUserUsecase;
+  final SetUserUsercase setUserUsecase;
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +163,10 @@ class FitStriveApp extends StatelessWidget {
         routes: {
           '/launch': (_) => const LaunchView(),
           '/login': (_) => const LoginView(),
-          '/register': (_) => const RegisterView(),
+          '/register': (_) => RegisterView(
+            getUserUsecase: getUserUsecase,
+            setUserUsecase: setUserUsecase,
+          ),
           '/forgot-password': (_) => const ForgotPasswordView(),
           '/daily-intake-stats': (_) => const DailyIntakeView(),
           '/dashboard': (_) => const DashboardView(),
@@ -160,7 +177,10 @@ class FitStriveApp extends StatelessWidget {
           '/log-weight': (_) => const WeightEntryView(),
           '/my-goals': (_) => const GoalsSetupView(),
           '/statistics': (_) => const StatisticsView(),
-          '/setup-profile': (_) => const ProfileSetupView(),
+          '/setup-profile': (_) => ProfileSetupView(
+            getUserUsecase: getUserUsecase,
+            setUserUsecase: setUserUsecase,
+          ),
           '/profile': (_) => const ProfileView(),
         },
       ),

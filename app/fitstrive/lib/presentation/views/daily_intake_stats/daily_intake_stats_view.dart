@@ -221,6 +221,7 @@ class _DailyIntakeContent extends StatelessWidget {
               size: 48,
               color: Theme.of(context).colorScheme.primary,
             ),
+            Text(cardName),
           ],
         ),
       ),

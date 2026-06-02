@@ -72,17 +72,17 @@ class RegisterViewModel extends BaseViewModel {
   // login actions
   // attempts to authenticate user
   Future<bool> register() async {
-    // stop in form is invalid
-    //if (!formKey.currentState!.validate()) return false;
-    log("Register in ViewmOdel");
-    return runAsync(() async {
-      log("Register in ViewmOdel 2");
+    bool success = false;
+
+    await runAsync(() async {
       try {
-        log("pass" + _form.password);
-        var email = Email(value: _form.email);
-        var username = Username(value: _form.username);
-        var name = Name(firstName: _form.firstName, lastName: _form.lastName);
-        var password = Password(value: _form.password);
+        final email = Email(value: _form.email.trim());
+        final username = Username(value: _form.username.trim());
+        final name = Name(
+          firstName: _form.firstName.trim(),
+          lastName: _form.lastName?.trim(),
+        );
+        final password = Password(value: _form.password);
 
         final result = await _registrationUseCase.execute(
           email: email,
@@ -90,16 +90,18 @@ class RegisterViewModel extends BaseViewModel {
           name: name,
           password: password,
         );
-        if (result != null) {
-          notifyListeners();
-        }
+
+        success = result != null;
         return true;
-      } catch (e) {
-        log("error Register in ViewmOdel 2");
-        log(e.toString());
+      } catch (e, stackTrace) {
+        log("Register failed", error: e, stackTrace: stackTrace);
+
+        success = false;
         return false;
       }
     });
+
+    return success;
   }
 
   // dispose controllers to prevent memory leaks

@@ -1,13 +1,24 @@
 import 'dart:ffi';
 
+import 'package:fitstrive/application/usecases/get_user_usercase.dart';
+import 'package:fitstrive/application/usecases/set_user_usercase.dart';
 import 'package:flutter/material.dart';
 import '../models/temp_profile_data.dart';
 
 class ProfileSetupView extends StatefulWidget {
-  const ProfileSetupView({super.key});
+  const ProfileSetupView({
+    super.key,
+    required this.getUserUsecase,
+    required this.setUserUsecase,
+  });
 
+  final GetUserUsercase getUserUsecase;
+  final SetUserUsercase setUserUsecase;
   @override
-  State<ProfileSetupView> createState() => _ProfileSetupViewState();
+  State<ProfileSetupView> createState() => _ProfileSetupViewState(
+    getUserUsecase: getUserUsecase,
+    setUserUsecase: setUserUsecase,
+  );
 }
 
 class _ProfileSetupViewState extends State<ProfileSetupView> {
@@ -17,15 +28,20 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _lengthController = TextEditingController();
 
+  final GetUserUsercase getUserUsecase;
+  final SetUserUsercase setUserUsecase;
   String? _selectedGender;
+
+  _ProfileSetupViewState({
+    required this.getUserUsecase,
+    required this.setUserUsecase,
+  });
   final List<String> _genderOptions = ['Male', 'Female'];
 
   void _saveProfile() {
     if (_nameController.text.isEmpty ||
         _ageController.text.isEmpty ||
         _countryController.text.isEmpty ||
-        _weightController.text.isEmpty ||
-        _lengthController.text.isEmpty ||
         _selectedGender == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please fill out all fields to continue!')),
@@ -37,8 +53,6 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     TempProfileData.age = _ageController.text;
     TempProfileData.gender = _selectedGender!;
     TempProfileData.country = _countryController.text;
-    TempProfileData.length = double.parse(_lengthController.text);
-    TempProfileData.weight = double.parse(_weightController.text);
 
     FocusScope.of(context).unfocus();
 
@@ -51,7 +65,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
         ),
       );
 
-      Navigator.pushReplacementNamed(context, '/dashboard');
+      Navigator.pushReplacementNamed(context, '/daily-intake-stats');
     }
   }
 
@@ -125,24 +139,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
               ),
             ),
             SizedBox(height: 32),
-            TextField(
-              controller: _weightController,
-              decoration: InputDecoration(
-                labelText: 'Weight',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.public),
-              ),
-            ),
-            SizedBox(height: 32),
-            TextField(
-              controller: _lengthController,
-              decoration: InputDecoration(
-                labelText: 'Length',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.public),
-              ),
-            ),
-            SizedBox(height: 32),
+
             ElevatedButton(
               onPressed: _saveProfile,
 
