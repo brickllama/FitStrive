@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fitstrive/application/usecases/add_food_item_usecase.dart';
 import 'package:fitstrive/application/usecases/get_food_item_usecase.dart';
 import 'package:fitstrive/application/usecases/get_foods_usecase.dart';
@@ -37,9 +39,16 @@ import 'presentation/views/weight_entry_view.dart';
 import 'presentation/views/goals_setup_view.dart';
 import 'presentation/views/statistics_view.dart';
 
-void main() async {
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
+Future main() async {
   await dotenv.load(fileName: 'config/.env');
+  if (Platform.isWindows || Platform.isLinux) {
+    sqfliteFfiInit();
+  }
+  databaseFactory = databaseFactoryFfi;
   AppDatabase db = AppDatabase();
+
   final remoteUserDataSource = RemoteUserDatasourceImpl();
   final userLocalSource = UserLocalSourceImpl(db);
 
